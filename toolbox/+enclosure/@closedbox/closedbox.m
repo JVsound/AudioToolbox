@@ -1,6 +1,5 @@
 classdef closedbox
-    %CLOSEDBOX Summary of this class goes here
-    %   Detailed explanation goes here
+    %CLOSEDBOX
     
     properties
         vol     (1,1)   double      {mustBeNonnegative}     = 0;    % Net volume of closed box [m3]
