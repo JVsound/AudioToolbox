@@ -11,6 +11,7 @@ classdef simulation
         nsp     (1,1) double    {mustBeInteger,mustBePositive}  = 1;                    % Number of speakers [-]
         eg      (1,1) double                                    = 2.83;                 % Voltage over speaker terminals [V]
         r       (1,1) double    {mustBePositive}                = 1;                    % Microphone distance for SPL calculations [m]
+		fea		(1,1) fea.feaimport														% FEA import object.
     end
     
     properties (Dependent)
@@ -101,6 +102,7 @@ classdef simulation
                 % T3:   Mechanical - Function of w
                 % T4:   Transformer
                 % T5:   Acoustical - Function of w
+				% T6:	Acoustical - Function of w
 
                 % Allocate T:
                 T       = zeros(2,2,nf);
@@ -151,10 +153,74 @@ classdef simulation
             elseif isa(obj.encl,"enclosure.bassreflex")
                 % The enclosure is a bass reflex box
 
+                % T     = T1 * T2 * T3 * T4 * T5
+                %
+                % T1:   Electrical - Function of w
+                % T2:   Gyrator
+                % T3:   Mechanical - Function of w
+                % T4:   Transformer
+                % T5:   Acoustical - Function of w
+				% T6:	Acoustical - Function of w
+
+                % Allocate T:
+                T       = zeros(2,2,nf);
+     
+                % Matrices which are not a function of frequency:
+                T2      = [ 0               obj.sp.bl; ...
+                            obj.sp.bl^-1    0];
+                T4      = [ obj.sp.sd       0; ...
+                            0               obj.sp.sd^-1];
+
+                % Matrices which are a function of frequency:
+                T1          = zeros(2,2,nf);
+
+                T1(1,1,:)   = ones(1,nf);
+                T1(2,2,:)   = ones(1,nf);
+                T1(1,2,:)   = obj.ze;
+
+                T3          = zeros(2,2,nf);
+
+                T3(1,1,:)   = ones(1,nf);
+                T3(2,2,:)   = ones(1,nf);
+                T3(1,2,:)   = obj.zm;
+
+                T5          = zeros(2,2,nf);
+
+                T5(1,1,:)   = ones(1,nf);
+                T5(2,2,:)   = ones(1,nf);
+                T5(1,2,:)   = obj.fea.zafront;
+                
+                T6          = zeros(2,2,nf);
+
+                T6(1,1,:)   = ones(1,nf);
+                T6(2,2,:)   = ones(1,nf);
+                T6(2,1,:)   = obj.fea.zarear.^-1;
+
+                for i = 1:nf
+                    T(:,:,i)    = T1(:,:,i) * T2 * T3(:,:,i) * T4 * ...
+                        T5(:,:,i) * T6(:,:,i);
+                end
+
+                % Pressure over diaphragm:
+                p6          = obj.eg ./ squeeze(T(1,1,:))';
+
+                % Volume velocity through rear acoustic impedance:
+                q           = p6 ./ ...
+                    obj.fea.zarear';
+
+				% Diaphragm velocity:
+				xdot		= q / obj.sp.sd;
+
+				% Diaphragm position:
+				x			= xdot ./ (1i * obj.w);
+
             end
 
-            val.pg  = p6;
-            val.q   = q;
+            val.pg		= p6;
+            val.q		= q;
+			val.xdot	= xdot;
+			val.x		= x;
+
         end
         function val = get.spl(obj)
             %SPL Sound Pressure Level in [dB]
@@ -162,12 +228,26 @@ classdef simulation
             % sim2port method:
             s2p     = obj.sim2port;
 
-            % Sound pressure in [Pa] at distance r [m]:
-            pr      = 1i * obj.f * acoustics.misc.rho0 .* ...
-                s2p.q .* exp(-1i * obj.k * obj.r) / obj.r;
+			% Check type of enclosure:
+            if isa(obj.encl,"enclosure.closedbox")
+                % The enclosure is a closed box.
 
-            val     = 20 * log10(abs(pr) / acoustics.misc.pref);
+				% Sound pressure in [Pa] at distance r [m]:
+				pr      = 1i * obj.f * acoustics.misc.rho0 .* ...
+					s2p.q .* exp(-1i * obj.k * obj.r) / obj.r;
+
+            elseif isa(obj.encl,"enclosure.bassreflex")
+                % The enclosure is a bass reflex box
+
+				% Convert diaphragm velocity to pressure at microphone
+				% position:
+
+				pr		= obj.fea.xdot2pres .* s2p.xdot';
+
+		    end
+
+			val     = 20 * log10(abs(pr) / acoustics.misc.pref);
+
         end
     end
-
 end

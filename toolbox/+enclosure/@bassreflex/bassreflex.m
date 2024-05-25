@@ -5,6 +5,7 @@ classdef bassreflex
         vol     (1,1)   double      {mustBeNonnegative}     = 0;    % Net volume of enclosure, excluding port [m3]
         hport   (1,1)   double      {mustBePositive}        = 0.05; % Height of port [m]
         wport   (1,1)   double      {mustBePositive}        = 0.25; % Width of port [m]
+		lport	(1,1)	double		{mustBePositive}		= 0.1;	% Length of port [m]
     end
 
     properties (SetAccess = protected)
