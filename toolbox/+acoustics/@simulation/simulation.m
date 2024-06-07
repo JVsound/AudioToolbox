@@ -11,7 +11,7 @@ classdef simulation
         nsp     (1,1) double    {mustBeInteger,mustBePositive}  = 1;                    % Number of speakers [-]
         eg      (1,1) double                                    = 2.83;                 % Voltage over speaker terminals [V]
         r       (1,1) double    {mustBePositive}                = 1;                    % Microphone distance for SPL calculations [m]
-		fea		(1,1) fea.feaimport														% FEA import object.
+		feai	(1,1) fea.feaimport														% FEA import object.
     end
     
     properties (Dependent)
@@ -58,8 +58,6 @@ classdef simulation
         function val = get.za(obj)
             %ZA Acoustical impedance
 
-            val = obj.nsp;
-
             % Check type of enclosure:
             if isa(obj.encl,"enclosure.closedbox")
                 % The enclosure is a closed box.
@@ -77,7 +75,8 @@ classdef simulation
                 zarear      = obj.encl.zarear(obj.w);
 
                 % Combine:
-                val         = zafront + zarear;
+                val.front	= zafront;
+				val.rear	= zarear;
 
             elseif isa(obj.encl,"enclosure.bassreflex")
                 % The enclosure is a bass reflex.
@@ -150,6 +149,12 @@ classdef simulation
                 q           = p6 ./ ...
                     obj.encl.zarear(obj.w);
 
+				% Diaphragm velocity:
+				xdot		= q / obj.sp.sd;
+
+				% Diaphragm position:
+				x			= xdot ./ (1i * obj.w);
+
             elseif isa(obj.encl,"enclosure.bassreflex")
                 % The enclosure is a bass reflex box
 
@@ -188,13 +193,13 @@ classdef simulation
 
                 T5(1,1,:)   = ones(1,nf);
                 T5(2,2,:)   = ones(1,nf);
-                T5(1,2,:)   = obj.fea.zafront;
+                T5(1,2,:)   = obj.feai.zafront;
                 
                 T6          = zeros(2,2,nf);
 
                 T6(1,1,:)   = ones(1,nf);
                 T6(2,2,:)   = ones(1,nf);
-                T6(2,1,:)   = obj.fea.zarear.^-1;
+                T6(2,1,:)   = obj.feai.zarear.^-1;
 
                 for i = 1:nf
                     T(:,:,i)    = T1(:,:,i) * T2 * T3(:,:,i) * T4 * ...
@@ -206,7 +211,7 @@ classdef simulation
 
                 % Volume velocity through rear acoustic impedance:
                 q           = p6 ./ ...
-                    obj.fea.zarear';
+                    obj.feai.zarear';
 
 				% Diaphragm velocity:
 				xdot		= q / obj.sp.sd;
@@ -242,7 +247,7 @@ classdef simulation
 				% Convert diaphragm velocity to pressure at microphone
 				% position:
 
-				pr		= obj.fea.xdot2pres .* s2p.xdot';
+				pr		= obj.feai.xdot2pres .* s2p.xdot';
 
 		    end
 
