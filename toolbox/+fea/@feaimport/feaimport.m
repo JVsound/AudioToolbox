@@ -47,7 +47,7 @@ classdef feaimport
 			p		= imp.RealPa + 1i * imp.ImaginaryPa;
 
 			% Volume velocity:
-			Q		= obj.xdot * obj.sd;
+			Q		= -obj.xdot * obj.sd;
 
 			% Acoustic impedance:
 			val		= (p / Q).';

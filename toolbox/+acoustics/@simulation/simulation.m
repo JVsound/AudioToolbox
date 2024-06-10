@@ -124,9 +124,7 @@ classdef simulation
 					% Acoustic impedance FEA results available.
 
 					zarear		= obj.feai.zarear;
-					% zarear		= real(obj.feai.zarear) - 1i * imag(obj.feai.zarear);
-					% zafront		= obj.feai.zafront;
-					zafront		= real(obj.feai.zafront) - 1i * imag(obj.feai.zafront);
+					zafront		= obj.feai.zafront;
 
 				end
 
