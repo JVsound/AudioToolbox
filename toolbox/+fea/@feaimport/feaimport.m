@@ -35,7 +35,7 @@ classdef feaimport
 			Q		= obj.xdot * obj.sd;
 
 			% Acoustic impedance:
-			val		= (p / Q)';
+			val		= (p / Q).';
 		end
 		function val = get.zarear(obj)
 			%ZAREAR
@@ -50,7 +50,7 @@ classdef feaimport
 			Q		= obj.xdot * obj.sd;
 
 			% Acoustic impedance:
-			val		= (p / Q)';
+			val		= (p / Q).';
 		end
 		function val = get.fans(obj)
 			%FANS ANSYS frequency
