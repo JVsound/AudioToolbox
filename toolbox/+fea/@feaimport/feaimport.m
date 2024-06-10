@@ -35,7 +35,7 @@ classdef feaimport
 			Q		= obj.xdot * obj.sd;
 
 			% Acoustic impedance:
-			val		= p / Q;
+			val		= (p / Q)';
 		end
 		function val = get.zarear(obj)
 			%ZAREAR
@@ -50,7 +50,7 @@ classdef feaimport
 			Q		= obj.xdot * obj.sd;
 
 			% Acoustic impedance:
-			val		= p / Q;
+			val		= (p / Q)';
 		end
 		function val = get.fans(obj)
 			%FANS ANSYS frequency
@@ -64,7 +64,7 @@ classdef feaimport
 			fr		= impr.FrequencyHz;
 
 			if isequal(ff,fr)
-				val = ff;
+				val = ff';
 			else
 				disp("Unequal ANSYS frequencies for ANSYS pressure export files.")
 				return
@@ -80,7 +80,7 @@ classdef feaimport
 			p		= imp.RealPa + 1i * imp.ImaginaryPa;
 
 			% Pressure at 1m/s diaphragm velocity:
-			val		= p / obj.xdot;
+			val		= (p / obj.xdot).';
 		end
 
 	end
