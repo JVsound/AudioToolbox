@@ -9,10 +9,12 @@ classdef simulation
             "enclosure.bassreflex","enclosure.tappedhorn"])}    = enclosure.closedbox   % Enclosure for this simulation.
         sp      (1,1)           {mustBeA(sp,"speaker.woofer")}  = speaker.woofer        % Speaker for this simulation.
         nsp     (1,1) double    {mustBeInteger,mustBePositive}  = 1;                    % Number of speakers [-]
-        eg      (1,1) double                                    = 2.83;                 % Voltage over speaker terminals [V]
+        eg      (1,1) double                                    = 2.83;                 % Voltage RMS over speaker terminals [V]
         r       (1,1) double    {mustBePositive}                = 1;                    % Microphone distance for SPL calculations [m]
 		feai	(1,1) fea.feaimport														% FEA import object.
-    end
+		plim	(1,1) double	{mustBeNonnegative}				= 0						% Power limit [W] for calculation of maximum SPL [dB]
+		xlim	(1,1) double	{mustBeNonnegative}				= 0						% Cone excursion limit [m] for calculation of maximum SPL [dB]
+	end
     
     properties (Dependent)
         w				                                                                % Frequency array [rad/s]
@@ -22,7 +24,9 @@ classdef simulation
         za                                                                              % Equivalent acoustic impedance [Ns/m5]
         sim2port                                                                        % Simulation of 2-port network
         spl                                                                             % Sound pressure level at distance r
-        inpimp                                                                          % Input impedance of system [Ohm]
+		splff																			% Sound pressure at the farfield for feai export files
+        swl																				% Sound power level of radiating source [dB]
+		mspl																			% Maximum sound pressure level [dB] at distance r, limited by plim and xlim.
     end
 
     methods
@@ -155,14 +159,13 @@ classdef simulation
                 T5(1,1,:)   = ones(1,nf);
                 T5(2,2,:)   = ones(1,nf);
 				T5(1,2,:)	= zafront;
-                % T5(1,2,:)   = acoustics.impedance.zarad(obj.sp.a,obj.w);
                 
                 T6          = zeros(2,2,nf);
 
                 T6(1,1,:)   = ones(1,nf);
                 T6(2,2,:)   = ones(1,nf);
 				T6(2,1,:)	= zarear.^-1;
-                % T6(2,1,:)   = obj.encl.zarear(obj.w).^-1;
+
 
                 for i = 1:nf
                     T(:,:,i)    = T1(:,:,i) * T2 * T3(:,:,i) * T4 * ...
@@ -170,7 +173,7 @@ classdef simulation
                 end
 
                 % Pressure over diaphragm:
-                p6          = obj.eg ./ squeeze(T(1,1,:))';
+                p6          = obj.eg ./ squeeze(T(1,1,:)).';
 
                 % Volume velocity through radiation impedance:
                 q           = p6 ./ ...
@@ -181,6 +184,9 @@ classdef simulation
 
 				% Diaphragm position:
 				x			= xdot ./ (1i * obj.w);
+
+				% input impedance
+				zetot		= squeeze(T(1,1,:)).' ./ squeeze(T(2,1,:)).';
 
             elseif isa(obj.encl,"enclosure.bassreflex")
                 % The enclosure is a bass reflex box
@@ -246,14 +252,39 @@ classdef simulation
 				% Diaphragm position:
 				x			= xdot ./ (1i * obj.w);
 
+				% input impedance
+				zetot		= squeeze(T(1,1,:)).' ./ squeeze(T(2,1,:)).';
+
             end
 
             val.pg		= p6;
             val.q		= q;
 			val.xdot	= xdot;
 			val.x		= x;
+			val.zetot	= zetot;
 
-        end
+			% Calculate maximum sound pressure, limited by electric power
+			% and cone/diaphragm excursion. Required: q
+
+			% Voltage multiplier due to xlim limitation:
+			vmxlim		= obj.xlim ./ abs(val.x);
+			% Voltage multiplier due to plim limitation, first calculate
+			% real power for RMS voltage eg:
+			% Current:
+			ig			= obj.eg ./ val.zetot;
+			% Power:
+			preal		= abs(ig).^2 .* real(val.zetot);
+			% Voltage multiplier due to power limitation:
+			vmplim		= obj.plim ./ preal;
+
+			val.vmxlim	= vmxlim;
+			val.vmplim	= vmplim;
+
+			% Volume velocity max
+			val.qmax.xlim	= q .* vmxlim;
+			val.qmax.plim	= q .* vmplim;
+			val.qmax.xplim	= min([val.qmax.xlim; val.qmax.plim],[],1);        
+		end
         function val = get.spl(obj)
             %SPL Sound Pressure Level in [dB]
 
@@ -299,5 +330,86 @@ classdef simulation
 			val     = 20 * log10(abs(pr) / acoustics.misc.pref);
 
         end
-    end
+		function val = get.splff(obj)
+			%SPLFF Sound Pressure Level at the Far-field
+
+			% sim2port method:
+            s2p     = obj.sim2port;
+
+			% Check if there is file present for pressure at the Far-field:
+
+			if obj.feai.fnamexdottopres == ""
+					% No result file present. 
+
+					disp("No result file present for Far field pressure calculation");
+
+				else 
+					% A result file is present, and the sound pressure is
+					% calculated using the cone velocity xdot.
+
+					% Sound pressure [Pa]:
+					pr		= obj.feai.xdot2presff .* s2p.xdot;
+
+					% Sound pressure [dB]:
+					val     = 20 * log10(abs(pr) / acoustics.misc.pref);
+			end
+		end
+		function val = get.swl(obj)
+			%SWL Sound Power Level
+
+			val = obj.eg;
+
+		end
+		function val = get.mspl(obj)
+			%MSPL Maximum sound pressure level [dB]
+			%Limited by plim and xlim.
+
+			% sim2port method:
+            s2p     = obj.sim2port;
+
+			% Check type of enclosure:
+            if isa(obj.encl,"enclosure.closedbox")
+                % The enclosure is a closed box.
+
+				% Cone velocity to sound pressure relation
+				%
+				% If there is a FEA result file present in the feai object,
+				% this file is used to calculate the sound pressure as
+				% function of the cone velocity.
+
+				if obj.feai.fnamexdottopres == ""
+					% No result file present. Calculate sound pressure
+					% according to toolbox equations:
+
+					% Sound pressure in [Pa] at distance r [m]:
+					pr      = 1i * obj.f .* acoustics.misc.rho0 .* ...
+						s2p.q .* exp(-1i * obj.k * obj.r) / obj.r;
+				else 
+					% A result file is present, and the sound pressure is
+					% calculated using the cone velocity xdot.
+
+					% Sound pressure:
+					pr		= obj.feai.xdot2pres .* s2p.xdot;
+				end
+
+            elseif isa(obj.encl,"enclosure.bassreflex")
+                % The enclosure is a bass reflex box
+
+				% Convert diaphragm velocity to pressure at microphone
+				% position:
+
+				pr		= obj.feai.xdot2pres .* s2p.xdot';
+
+		    end
+
+			prxlim	= pr .* s2p.vmxlim;
+			prplim	= pr .* s2p.vmplim;
+
+			[pr,idx]	= min([prxlim; prplim],[],1);
+
+			val.spl     = 20 * log10(abs(pr) / acoustics.misc.pref);
+			val.idx		= idx;
+
+		end
+	end
 end

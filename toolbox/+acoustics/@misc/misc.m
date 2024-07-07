@@ -9,6 +9,7 @@ classdef misc
         pref    = 20e-6                             % Reference sound pressure [Pa]
         mu      = 1.825e-5                          % Viscosity coefficient of air [kg/(m.s)]
         nu      = 1.516e-5                          % Kinematic viscosity of air [m2/s]
+		powref	= 1e-12								% Reference sound power in air [W]
     end
     
     methods
