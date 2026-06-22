@@ -58,18 +58,13 @@ classdef feaimport
 			%FANS ANSYS frequency
 
 			% Import pressure results front and rear side of diaphragm:
-			if obj.fnamediaphragmf ~= ""
+			if obj.fnamediaphragmf ~= "" || obj.fnamediaphragmr ~= ""
 				impf	= fea.feaimport.importansyspres( ...
 					obj.fnamediaphragmf);
 				ff		= impf.FrequencyHz;
 				val		= ff.';
-			end
-			
-			if obj.fnamediaphragmr ~= ""
-				impr	= fea.feaimport.importansyspres( ...
-					obj.fnamediaphragmr);
-				fr		= impr.FrequencyHz;
-				val		= fr.';
+			else
+				val		= 0;
 			end
 
 		end

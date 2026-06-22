@@ -16,7 +16,14 @@ classdef woofer
 
         le      (1,1) double {}                     = 0         % Voice coil inductance [H]
         xmax    (1,1) double {}                     = 0         % Maximum diaphragm excursion one way [m]
-        paes    (1,1) double {}                     = 0         % AES Power handling
+        pmax    (1,1) double {}                     = 0         % Maximum power handling [W]
+
+		% Semi-inductance
+		rea		(1,1) double {}						= 0			% Re', substitutes Re and includes additions due to eddy currents in "ac-shorting devices" outside the air gap.
+		leb		(1,1) double {}						= 0			% Stray inductance due to flux around the coil out of touch with the iron ...
+		rss		(1,1) double {}						= 0			% Impedance of copper inside the air gap
+		ke		(1,1) double {}						= 0			% Semi-inductance due to the solid iron core.
+		lea		(1,1) double {}						= 0			% Le', substitutes Le (so we can keep le equal to the one from a datasheet).
     end
 
     properties (Dependent)
@@ -81,7 +88,19 @@ classdef woofer
         function val = ze(obj,w)
             %ZE Electrical impedance
 
-            val     = obj.re + 1i * w * obj.le;
+			% Semi-inductance or not:
+			if any(obj.rea)
+				% Semi-inductance calculation for ze:
+
+				val		= obj.rea + 1i*w*obj.leb + ...
+					( 1 ./ (1i*w*obj.lea) + 1 ./ obj.rss + ...
+					1 ./ (obj.ke * sqrt(1i*w)) ).^-1;
+			else
+				% No semi-inductance:
+
+				val     = obj.re + 1i*w*obj.le;
+			end
+
         end
         function val = zm(obj,w)
             %ZM Mechanical impedance
