@@ -15,6 +15,7 @@ classdef driver
 		bl		(1,1) double								% Product of air-gap magnetic field times length of wire in the voice coil winding [Tm]
 		cms		(1,1) double								% Total mechanical compliance of suspension [m/N]
 		mmd		(1,1) double								% Mass of the diaphragm and the voice coil in [kg]
+		mms		(1,1) double								% Mass of the diaphragm and the voice coil, including air load [kg]
 		mmi		(1,1) double								% Mass contributed by the air load on one side of the piston [kg]
 		rms		(1,1) double								% Mechanical resistance of the suspension in [Ns/m]
 		a		(1,1) double								% Radius of effective area of the diaphragm [m]
@@ -42,6 +43,12 @@ classdef driver
 			%MMD
 
 			val = obj.mms - 2*obj.mmi;
+
+		end
+		function val = get.mms(obj)
+			%MMS
+
+			val = 1 ./ ((2*pi*obj.fs)^2 * obj.cms);
 
 		end
 		function val = get.mmi(obj)

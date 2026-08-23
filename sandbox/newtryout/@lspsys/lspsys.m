@@ -4,7 +4,7 @@ classdef lspsys
 	properties
 		f			(1,:)	double {mustBePositive}									= logspace(log10(2e1),log10(2e4),1e3);
 		eg			(1,1)	double {mustBePositive}									= 2.83;
-		ra			(1,1)	string {mustBeMember(ra,["4pi","2pi","pi","pi/2"])}		= "2pi";
+		ra			(1,1)	string {mustBeMember(ra,["2pi","pi","pi/2"])}			= "2pi";
 		enclosure	(1,1)	comp.enclosure											= comp.closedbox
 	end
 
@@ -12,18 +12,10 @@ classdef lspsys
 		w
 		k
 		lambda
+		nf
 	end
 
-	properties (Dependent, Access = private)
-		Te
-		Tbl
-		Tm
-		Tsd
-		Taf
-		Tar
-	end
-
-	properties (Constant)
+	properties (Constant, Hidden)
 		c		= 343;		% Speed of sound [m/s], at 20deg C. Source: Wikipedia
 		rho		= 1.225;	% Density of air [kg/m3] at sea level, at 20deg C. Source: Wikpedia
 		pref	= 20e-6		% Reference pressure [Pa] for sound pressure level calculations
@@ -49,50 +41,29 @@ classdef lspsys
 
 			val = lspsys.f2lambda(obj.f);
 		end
-		
-		function val = get.Te(obj)
+		function val = get.nf(obj)
+			%NF Number of frequencies
 
-		end
-		function val = get.Tbl(obj)
-
-		end
-		function val = get.Tm(obj)
-
-		end
-		function val = get.Tsd(obj)
-
-		end
-		function val = get.Taf(obj)
-
-		end
-		function val = get.Tar(obj)
+			val = numel(obj.f);
 
 		end
 
-		function val = buildtmem(obj)
-			%TMEM
-			val = 1;
-		end
-		function val = buildtma(obj)
-			%TMA Vraag transmission matrices op, met behulp van radang:
-
-			tmaint = obj.enclosure.tma(obj.ra);
-
-			val = 1;
-		end
 		function val = solve2portnetwork(obj)
 			%SOLVE2PORTNETWORK
 
 			% We need: Te, Tbl, Tm, Tsd, Taf, Tar
 			Te		= obj.enclosure.driver.Te(obj.f);
-			Tbl		= obj.enclosure.driver.Tbl(obj.f);
+			Tbl		= obj.enclosure.driver.Tbl;
 			Tm		= obj.enclosure.driver.Tm(obj.f);
-			Tsd		= obj.enclosure.driver.Tsd(obj.f);
+			Tsd		= obj.enclosure.driver.Tsd;
 			Taf		= obj.enclosure.Taf(obj.f,obj.ra);
 			Tar		= obj.enclosure.Tar(obj.f,obj.ra);
 
+			% 
+			Tbl		= repmat(Tbl,1,1,obj.nf);
+			Tsd		= repmat(Tsd,1,1,obj.nf);
 
-			val		= 1;
+			val = 1;
 		end
 		function val = result(obj)
 			%RESULT
