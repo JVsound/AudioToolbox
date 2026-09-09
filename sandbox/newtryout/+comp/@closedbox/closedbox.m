@@ -2,34 +2,37 @@ classdef closedbox < comp.enclosure
 	%CLOSEDBOX
 
 	properties
-		vr		(1,1) double {mustBePositive}	= 10e-3;	% Volume of rear chamber in [m3]
+		Vr		(1,1) double {mustBePositive}	= 10e-3;	% Volume of rear chamber in [m3]
 	end
 
 	methods
 		function obj = closedbox
 			%CLOSEDBOX
 		end
-		function val = zaf(obj,f,ra)
+		function val = Zaf(obj,f,ra)
 			%ZAF Acoustic impedance - front of diaphragm
 
 			% We only use radiation from a rigid piston in an infinite
 			% baffle for now.
 
-			% Radius of driver:
-			a	= obj.driver.a;
+			if ra == "2pi"
 
-			% Frequency in [rad/s]:
-			w	= 2*pi*f;
+				% Radius of driver:
+				a	= obj.driver.a;
 
-			% Radiation impedance:
-			val = comp.enclosure.zarad(a,w);
+				% Frequency in [rad/s]:
+				w	= 2*pi*f;
 
+				% Radiation impedance:
+				val = comp.enclosure.Zarad(a,w);
+
+			end
 		end
-		function val = zar(obj,f,ra)
+		function val = Zar(obj,f,~)
 			%ZAR Acoustic impedance - rear of diaphragm
 
 			% Acoustic compliance [m5/N]:
-			Ca		= obj.vr / (lspsys.rho * lspsys.c^2);
+			Ca		= obj.Vr / (lspsys.rho * lspsys.c^2);
 
 			% Acoustic impedance:
 			val		= 1 ./ (1i*2*pi*f*Ca);
@@ -42,7 +45,7 @@ classdef closedbox < comp.enclosure
 			nf			= numel(f);
 
 			% Impedance:
-			zaf_int		= obj.zaf(f,ra);
+			zaf_int		= obj.Zaf(f,ra);
 
 			% Transmission matrices:
 			val			= repmat([1 0; 0 1],1,1,nf);
@@ -51,14 +54,14 @@ classdef closedbox < comp.enclosure
 			val(1,2,:)	= zaf_int;
 
 		end
-		function val = Tar(obj,f,ra)
+		function val = Tar(obj,f,~)
 			%TAR Transmission matrix - acoustic. Rear of diaphragm.
 
 			% Number of frequencies:
 			nf			= numel(f);
 
 			% Impedance:
-			zar_int		= obj.zar(f,ra);
+			zar_int		= obj.Zar(f);
 
 			% Transmission matrices:
 			val			= repmat([1 0; 0 1],1,1,nf);
@@ -67,7 +70,7 @@ classdef closedbox < comp.enclosure
 			val(2,1,:)	= zar_int.^-1;
 
 		end
-		function val = Qd2Qr(obj,f,ra)
+		function val = Qd2Qr(~,f,~)
 			%QD2QR
 
 			% For a closed box Qd = Qr:

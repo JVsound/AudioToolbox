@@ -12,15 +12,15 @@ classdef (Abstract) enclosure
 	end
 
 	methods (Abstract)
-		val = zaf(obj,f,ra)
-		val = zar(obj,f,ra)
+		val = Zaf(obj,f,ra)
+		val = Zar(obj,f,ra)
 		val = Taf(obj,f,ra)
 		val = Tar(obj,f,ra)
 		val = Qd2Qr(obj,f,ra)
 	end
 
 	methods (Static)
-		function val	= zarad(a,w)
+		function val	= Zarad(a,w)
             %ZARAD Radiation impedance
             %
             %   Radiation impedance of a rigid circular piston in an
@@ -68,6 +68,6 @@ classdef (Abstract) enclosure
                 (12 - 36/pi) * (1 - cos(x)) ./ x.^2;
 
             val     = H1;
-        end
+		end
 	end
 end

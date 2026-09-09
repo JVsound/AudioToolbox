@@ -4,7 +4,7 @@ classdef lspsys
 	properties
 		f			(1,:)	double {mustBePositive}									= logspace(log10(2e1),log10(2e4),1e3);
 		eg			(1,1)	double {mustBePositive}									= 2.83;
-		ra			(1,1)	string {mustBeMember(ra,["2pi","pi","pi/2"])}			= "2pi";
+		ra			(1,1)	string {mustBeMember(ra,"2pi")}							= "2pi";
 		enclosure	(1,1)	comp.enclosure											= comp.closedbox
 	end
 
@@ -63,7 +63,25 @@ classdef lspsys
 			Tbl		= repmat(Tbl,1,1,obj.nf);
 			Tsd		= repmat(Tsd,1,1,obj.nf);
 
-			val = 1;
+			% Allocate Qd and ig:
+			Qd		= zeros(1,obj.nf);
+			ig		= zeros(1,obj.nf);
+
+			for i = 1:obj.nf
+				% Complete 2-port transmission matrix:
+				T		= Te(:,:,i) * Tbl(:,:,i) * Tm(:,:,i) * ...
+					Tsd(:,:,i) * Taf(:,:,i) * Tar(:,:,i);
+
+				% Diaphragm volume velocity:
+				Qd(i)	= obj.eg / T(1,2);
+
+				% Electric current:
+				ig(i)	= T(2,2) * Qd(i);
+			end
+
+			val.Qd	= Qd;
+			val.ig	= ig;
+			
 		end
 		function val = result(obj)
 			%RESULT
@@ -71,9 +89,17 @@ classdef lspsys
 			% Solve 2-port network:
 			s2p		= obj.solve2portnetwork;
 
+			Qr		= obj.enclosure.Qd2Qr(obj.f);
 
-			% object containing all the results:
-			val		= result(obj.f,obj.eg,ig,Qd,Qr);
+			% Initiate object for results collection:
+			val		= result;
+
+			% Assign results
+			val.f	= obj.f;
+			val.eg	= ones(1,obj.nf,1) * obj.eg;
+			val.Qd	= s2p.Qd;
+			val.Qr	= s2p.Qd .* Qr;
+			val.ig	= s2p.ig;
 		end
 	end
 
