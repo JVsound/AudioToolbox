@@ -1,11 +1,11 @@
 classdef lspsys
 	%LSPSYS Loudspeaker system object
 
-	properties
-		f			(1,:)	double {mustBePositive}									= logspace(log10(2e1),log10(2e4),1e3);
-		eg			(1,1)	double {mustBePositive}									= 2.83;
-		ra			(1,1)	string {mustBeMember(ra,"2pi")}							= "2pi";
-		enclosure	(1,1)	comp.enclosure											= comp.closedbox
+	properties (Access = public)
+		f			(1,:)	double {mustBePositive}				= logspace(log10(2e1),log10(2e4),1e3);
+		eg			(1,1)	double {mustBePositive}				= 2.83;
+		ra			(1,1)	string {mustBeMember(ra,"2pi")}		= "2pi";
+		enclosure	(1,1)	comp.enclosure						= comp.closedbox
 	end
 
 	properties (Dependent, Hidden)
