@@ -17,28 +17,36 @@
 %[text] ## Properties
 %[text] Hier komt een lijst met properties, onderverdeeld in dezelfde blokken als in het class definition file. Zie onder het voorbeeld. De attribute "Access = public" noemen we niet.
 %[text] ### Value
-%[text] - `f` \[Hz\] (1,:) // Frequency vector for simulation purposes. Defaults to ...
-%[text] - `eg`
-%[text] - `ra`
-%[text] - `enclosure` \
+%[text] - `Frequency` \[Hz\] (1,:) // Frequency vector for simulation purposes. Defaults to ...
+%[text] - `SourceVoltage`
+%[text] - `RadiationAngle`
+%[text] - `Enclosure` \
 %[text] ### Dependent, hidden
-%[text] - `w`
-%[text] - `k`
-%[text] - `lambda`
-%[text] - `nf` \
+%[text] - `AngularFrequency`
+%[text] - `WaveNumber`
+%[text] - `Wavelength`
+%[text] - `NumFrequencies` \
 %[text] ### Constant, hidden
-%[text] - `c = 343` \[m/s\] //
-%[text] - `rho = 1.225` \[kg/m3\] //
-%[text] - `pref = 20e-6` \[Pa\] // \
+%[text] - `SpeedOfSound = 343` \[m/s\] //
+%[text] - `AirDensity = 1.225` \[kg/m3\] //
+%[text] - `ReferencePressure = 20e-6` \[Pa\] // \
 %[text] ## Methods
 %[text] ### Constructor
-%[text] 
+%[text]
+%[text] ### Instance methods
+%[text] Elke publieke instance-methode die een eigen documentatiebestand heeft (in de `methods`-submap van deze class) wordt hier als link met een korte omschrijving opgenomen — dit is de index waar de losse method-doc-bestanden vanuit deze pagina vindbaar worden. Methodes zonder eigen documentatiebestand hoeven hier niet vermeld te worden.
+%[text] - [`methodName`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','methods','methodNamedoc','methodNamedoc.m'))) — Brief description of what the method does. Link pattern: see 'Links between documentation files' in documentationhierarchy.m. \
 %[text] ### Static
-%[text] 
-%[text] 
-%[text] ## Appendix
-%[text] ### A - Working example
-%[text] ### B - 
+%[text]
+%[text] ## Examples
+%[text] Praktijkvoorbeelden van gebruik, elk met een eigen naam/label.
+%[text] ### Example: Brief label describing the example
+%[text] ```matlabCodeExample
+%[text] obj = lspsys;
+%[text] ```
+%[text] ## See Also
+%[text] Gerelateerde classes of namespaces uit de toolbox, elk met één regel context over de relatie.
+%[text] - `RelatedClass` — one-line description of how it relates to this class. \
 
 %[appendix]{"version":"1.0"}
 %---

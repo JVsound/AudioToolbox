@@ -275,7 +275,7 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:Arial;-inkscape-font-specification:Arial;stroke-width:0.1"
          x="-193.34546"
          y="44.117661"
-         sodipodi:role="line">solve2portnetwork</tspan></text>
+         sodipodi:role="line">solve2PortNetwork</tspan></text>
     <path
        style="fill:none;stroke:#800000;stroke-width:0.4;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#ConcaveTriangle)"
        d="m -170.38742,19.962508 h 8.39933"
@@ -296,7 +296,7 @@
          style="font-size:2.82222px;stroke-width:0.1"
          x="-158.24843"
          y="17.106382"
-         id="tspan9">Tbl</tspan><tspan
+         id="tspan9">tbl</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.82222px;stroke-width:0.1"
          x="-158.24843"
@@ -306,7 +306,7 @@
          style="font-size:2.82222px;stroke-width:0.1"
          x="-158.24843"
          y="24.161932"
-         id="tspan11">Tsd</tspan><tspan
+         id="tspan11">tsd</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.82222px;stroke-width:0.1"
          x="-158.24843"
@@ -490,7 +490,7 @@
          style="font-size:2.82222px;stroke-width:0.1"
          x="-207.55688"
          y="36.277069"
-         id="tspan32">Tbl</tspan><tspan
+         id="tspan32">tbl</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.82222px;stroke-width:0.1"
          x="-207.55688"
@@ -500,7 +500,7 @@
          style="font-size:2.82222px;stroke-width:0.1"
          x="-207.55688"
          y="43.332619"
-         id="tspan38">Tsd</tspan><tspan
+         id="tspan38">tsd</tspan><tspan
          sodipodi:role="line"
          style="font-size:2.82222px;stroke-width:0.1"
          x="-207.55688"
@@ -1199,7 +1199,7 @@
          y="135.12341"
          id="tspan270"><tspan
            style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
-           id="tspan269">lspsys.solve2port</tspan></tspan><tspan
+           id="tspan269">lspsys.solve2Port</tspan></tspan><tspan
          x="170.26129"
          y="137.79248"
          id="tspan272"><tspan
@@ -1519,7 +1519,7 @@
          y="88.09481"
          id="tspan315"><tspan
            style="font-family:Arial;-inkscape-font-specification:Arial"
-           id="tspan314">Taf, Tar</tspan></tspan></text>
+           id="tspan314">taf, tar</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.11667px;line-height:normal;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:center;text-decoration-color:#000000;text-anchor:middle;white-space:pre;inline-size:39.7992;display:inline;fill:#000000;stroke-width:0.1;-inkscape-stroke:none;stop-color:#000000"
@@ -1555,12 +1555,12 @@
          y="88.09481"
          id="tspan321"><tspan
            style="font-family:Arial;-inkscape-font-specification:Arial"
-           id="tspan320">Te, Tbl, </tspan></tspan><tspan
+           id="tspan320">te, tbl, </tspan></tspan><tspan
          x="91.625801"
          y="90.763884"
          id="tspan323"><tspan
            style="font-family:Arial;-inkscape-font-specification:Arial"
-           id="tspan322">Tm, Tsd</tspan></tspan></text>
+           id="tspan322">tm, tsd</tspan></tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:none"
        id="rect171"
@@ -1833,7 +1833,7 @@
        transform="translate(149.94059,-182.24772)"><tspan
          x="75.816948"
          y="88.09481"
-         id="tspan352">lspsys.result</tspan></text>
+         id="tspan352">lspsys.createResult</tspan></text>
     <rect
        style="fill:#ffffff;stroke:#4d4d4d;stroke-width:0.4;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect6"
@@ -1906,7 +1906,7 @@
          y="9.5415211"
          id="tspan354"><tspan
            style="font-family:'Courier New';-inkscape-font-specification:'Courier New'"
-           id="tspan353">lspsys1.enclosure.</tspan></tspan><tspan
+           id="tspan353">lspsys1.Enclosure.</tspan></tspan><tspan
          x="132.22031"
          y="13.100276"
          id="tspan356"><tspan
@@ -1922,7 +1922,7 @@
          id="tspan222"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="97.525063"
-         y="9.5564299">lspsys1.enclosure : </tspan><tspan
+         y="9.5564299">lspsys1.Enclosure : </tspan><tspan
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="97.525063"
@@ -2015,7 +2015,7 @@
          id="tspan230"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="66.516502"
-         y="61.192657">solve2portnetwork()</tspan></text>
+         y="61.192657">solve2PortNetwork()</tspan></text>
     <rect
        style="fill:#ffffff;stroke:#4d4d4d;stroke-width:0.4;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect231"
@@ -2049,7 +2049,7 @@
          id="tspan232"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="68.771889">Te(f)</tspan></text>
+         y="68.771889">te(f)</tspan></text>
     <path
        style="fill:none;stroke:#000080;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:2.4,1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 135.18755,73.329611 H 59.96957"
@@ -2079,7 +2079,7 @@
          id="tspan95"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="79.884392">Tbl()</tspan></text>
+         y="79.884392">tbl()</tspan></text>
     <path
        style="fill:none;stroke:#000080;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:2.4, 1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 135.18755,84.442111 H 59.96957"
@@ -2109,7 +2109,7 @@
          id="tspan105"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="90.930748">Tm(f)</tspan></text>
+         y="90.930748">tm(f)</tspan></text>
     <path
        style="fill:none;stroke:#000080;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:2.4, 1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 135.18755,95.488468 H 59.96957"
@@ -2139,7 +2139,7 @@
          id="tspan107"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="101.8259">Tsd()</tspan></text>
+         y="101.8259">tsd()</tspan></text>
     <path
        style="fill:none;stroke:#000080;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:2.4, 1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 135.18755,106.38366 H 59.96957"
@@ -2169,7 +2169,7 @@
          id="tspan109"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="113.23553">Taf(obj.f)</tspan></text>
+         y="113.23553">taf(obj.Frequency)</tspan></text>
     <path
        style="fill:none;stroke:#800000;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:1.2, 1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 95.782713,117.79332 H 59.96957"
@@ -2199,7 +2199,7 @@
          id="tspan111"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Courier New';-inkscape-font-specification:'Courier New';stroke-width:0.1"
          x="60.722645"
-         y="125.40636">Tar(obj.f)</tspan></text>
+         y="125.40636">tar(obj.Frequency)</tspan></text>
     <path
        style="fill:none;stroke:#800000;stroke-width:0.3;stroke-linejoin:round;stroke-dasharray:1.2, 1.2;stroke-dashoffset:0;marker-end:url(#ArrowWide)"
        d="M 95.782713,129.96418 H 59.96957"

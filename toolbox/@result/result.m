@@ -3,22 +3,22 @@ classdef result
 	%calculations.
 
 	properties (SetAccess = ?lspsys)
-		f	(1,:)	double			= 0;
-		eg	(1,:)	double			= 0;
-		ig	(1,:)	double			= 0;
-		Qd	(1,:)	double			= 0;
-		Qr	(1,:)	double			= 0;
-		ra	(1,1)	string			= "2pi";
+		Frequency	(1,:)	double			= 0;
+		SourceVoltage	(1,:)	double			= 0;
+		SourceCurrent	(1,:)	double			= 0;
+		DiaphragmVolumeVelocity	(1,:)	double			= 0;
+		RadiatedVolumeVelocity	(1,:)	double			= 0;
+		RadiationAngle	(1,1)	string			= "2pi";
 	end
 
 	properties
-		r	(1,1)	double		{mustBePositive}		= 1;	% Radius [m] relative to radiation surface where sound pressure level is calculated.
+		ObservationRadius	(1,1)	double		{mustBePositive}		= 1;	% Radius [m] relative to radiation surface where sound pressure level is calculated.
 	end
 
 	properties (Dependent)
-		Ze	(1,:)	double
-		pr	(1,:)	double
-		spl (1,:)	double
+		ElectricalImpedance	(1,:)	double
+		Pressure	(1,:)	double
+		SoundPressureLevel (1,:)	double
 	end
 
 	methods
@@ -26,16 +26,16 @@ classdef result
 			%RESULT Object constructor
 
 		end
-		function val = get.Ze(obj)
-			%ZE Electric impedance of system
+		function val = get.ElectricalImpedance(obj)
+			%ElectricalImpedance Electric impedance of system
 
-			val = obj.eg ./ obj.ig;
+			val = obj.SourceVoltage ./ obj.SourceCurrent;
 
 		end
-		function val = get.pr(obj)
-			%PR Pressure [Pa] at r
+		function val = get.Pressure(obj)
+			%Pressure Sound pressure [Pa] at ObservationRadius
 
-			if obj.ra == "2pi"
+			if obj.RadiationAngle == "2pi"
 
 			end
 
@@ -43,8 +43,8 @@ classdef result
 
 			val = 1;
 		end
-		function val = get.spl(obj)
-			%SPL Sound pressure level
+		function val = get.SoundPressureLevel(obj)
+			%SoundPressureLevel Sound pressure level
 
 			val = 1;
 		end

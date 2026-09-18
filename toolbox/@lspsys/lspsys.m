@@ -2,23 +2,23 @@ classdef lspsys
 	%LSPSYS Loudspeaker system object
 
 	properties (Access = public)
-		f			(1,:)	double {mustBePositive}				= logspace(log10(2e1),log10(2e4),1e3);
-		eg			(1,1)	double {mustBePositive}				= 2.83;
-		ra			(1,1)	string {mustBeMember(ra,"2pi")}		= "2pi";
-		enclosure	(1,1)	comp.enclosure						= comp.closedbox
+		Frequency			(1,:)	double {mustBePositive}				= logspace(log10(2e1),log10(2e4),1e3);
+		SourceVoltage			(1,1)	double {mustBePositive}				= 2.83;
+		RadiationAngle			(1,1)	string {mustBeMember(RadiationAngle,"2pi")}		= "2pi";
+		Enclosure	(1,1)	comp.Enclosure						= comp.ClosedBox
 	end
 
 	properties (Dependent, Hidden)
-		w
-		k
-		lambda
-		nf
+		AngularFrequency
+		WaveNumber
+		Wavelength
+		NumFrequencies
 	end
 
 	properties (Constant, Hidden)
-		c		= 343;		% Speed of sound [m/s], at 20deg C. Source: Wikipedia
-		rho		= 1.225;	% Density of air [kg/m3] at sea level, at 20deg C. Source: Wikpedia
-		pref	= 20e-6		% Reference pressure [Pa] for sound pressure level calculations
+		SpeedOfSound		= 343;		% Speed of sound [m/s], at 20deg C. Source: Wikipedia
+		AirDensity		= 1.225;	% Density of air [kg/m3] at sea level, at 20deg C. Source: Wikpedia
+		ReferencePressure	= 20e-6		% Reference pressure [Pa] for sound pressure level calculations
 	end
 
 	methods
@@ -26,93 +26,93 @@ classdef lspsys
 			%LSPSYS
 		end
 		
-		function val = get.w(obj)
-			%W Frequency in [rad/s]
+		function val = get.AngularFrequency(obj)
+			%AngularFrequency Frequency in [rad/s]
 			
-			val = obj.f * 2*pi;
+			val = obj.Frequency * 2*pi;
 		end
-		function val = get.k(obj)
-			%K Wave number
+		function val = get.WaveNumber(obj)
+			%WaveNumber Wave number
 
-			val = lspsys.f2k(obj.f);
+			val = lspsys.f2k(obj.Frequency);
 		end
-		function val = get.lambda(obj)
-			%LAMBDA Wave length
+		function val = get.Wavelength(obj)
+			%Wavelength Wave length
 
-			val = lspsys.f2lambda(obj.f);
+			val = lspsys.f2Lambda(obj.Frequency);
 		end
-		function val = get.nf(obj)
-			%NF Number of frequencies
+		function val = get.NumFrequencies(obj)
+			%NumFrequencies Number of frequencies
 
-			val = numel(obj.f);
+			val = numel(obj.Frequency);
 
 		end
 
-		function val = solve2portnetwork(obj)
-			%SOLVE2PORTNETWORK
+		function val = solve2PortNetwork(obj)
+			%solve2PortNetwork
 
 			% We need: Te, Tbl, Tm, Tsd, Taf, Tar
-			Te		= obj.enclosure.driver.Te(obj.f);
-			Tbl		= obj.enclosure.driver.Tbl;
-			Tm		= obj.enclosure.driver.Tm(obj.f);
-			Tsd		= obj.enclosure.driver.Tsd;
-			Taf		= obj.enclosure.Taf(obj.f,obj.ra);
-			Tar		= obj.enclosure.Tar(obj.f,obj.ra);
+			Te		= obj.Enclosure.Driver.te(obj.Frequency);
+			Tbl		= obj.Enclosure.Driver.tbl;
+			Tm		= obj.Enclosure.Driver.tm(obj.Frequency);
+			Tsd		= obj.Enclosure.Driver.tsd;
+			Taf		= obj.Enclosure.taf(obj.Frequency,obj.RadiationAngle);
+			Tar		= obj.Enclosure.tar(obj.Frequency,obj.RadiationAngle);
 
 			% 
-			Tbl		= repmat(Tbl,1,1,obj.nf);
-			Tsd		= repmat(Tsd,1,1,obj.nf);
+			Tbl		= repmat(Tbl,1,1,obj.NumFrequencies);
+			Tsd		= repmat(Tsd,1,1,obj.NumFrequencies);
 
 			% Allocate Qd and ig:
-			Qd		= zeros(1,obj.nf);
-			ig		= zeros(1,obj.nf);
+			Qd		= zeros(1,obj.NumFrequencies);
+			ig		= zeros(1,obj.NumFrequencies);
 
-			for i = 1:obj.nf
+			for i = 1:obj.NumFrequencies
 				% Complete 2-port transmission matrix:
 				T		= Te(:,:,i) * Tbl(:,:,i) * Tm(:,:,i) * ...
 					Tsd(:,:,i) * Taf(:,:,i) * Tar(:,:,i);
 
 				% Diaphragm volume velocity:
-				Qd(i)	= obj.eg / T(1,2);
+				Qd(i)	= obj.SourceVoltage / T(1,2);
 
 				% Electric current:
 				ig(i)	= T(2,2) * Qd(i);
 			end
 
-			val.Qd	= Qd;
-			val.ig	= ig;
+			val.DiaphragmVolumeVelocity	= Qd;
+			val.SourceCurrent	= ig;
 			
 		end
-		function val = result(obj)
-			%RESULT
+		function val = createResult(obj)
+			%createResult
 
 			% Solve 2-port network:
-			s2p		= obj.solve2portnetwork;
+			s2p		= obj.solve2PortNetwork;
 
-			Qr		= obj.enclosure.Qd2Qr(obj.f);
+			Qr		= obj.Enclosure.qd2Qr(obj.Frequency);
 
 			% Initiate object for results collection:
 			val		= result;
 
 			% Assign results
-			val.f	= obj.f;
-			val.eg	= ones(1,obj.nf,1) * obj.eg;
-			val.Qd	= s2p.Qd;
-			val.Qr	= s2p.Qd .* Qr;
-			val.ig	= s2p.ig;
+			val.Frequency	= obj.Frequency;
+			val.SourceVoltage	= ones(1,obj.NumFrequencies,1) * obj.SourceVoltage;
+			val.DiaphragmVolumeVelocity	= s2p.DiaphragmVolumeVelocity;
+			val.RadiatedVolumeVelocity	= s2p.DiaphragmVolumeVelocity .* Qr;
+			val.SourceCurrent	= s2p.SourceCurrent;
 		end
 	end
 
 	methods (Static)
-		function val = f2lambda(f)
-			%F2LAMBDA
+		function val = f2Lambda(f)
+			%f2Lambda
 
-			val = lspsys.c ./ f;
+			val = lspsys.SpeedOfSound ./ f;
 		end
 		function val = f2k(f)
-			%F2K Frequency to wave number
+			%f2k Frequency to wave number
 
-			val = 2*pi*f / lspsys.c;
+			val = 2*pi*f / lspsys.SpeedOfSound;
 		end
 	end
 end
