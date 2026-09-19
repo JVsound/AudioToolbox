@@ -1,5 +1,5 @@
 %[text] # Documentation hierarchy
-%[text] J.G. Vermond, JVsound
+%[text] **J.G. Vermond, JVsound**
 %[text] ## Hierarchy in documentation folder of JVsound toolbox
 %[text] Directly in the 'toolbox' folder there is a 'doc' folder, which contains all documentation for the toolbox.
 %[text] - First subdivision (folders directly in 'doc'): folders for each class, namespace, or standalone function directly located in the 'toolbox' directory, with the exception of the 'doc' folder itself, which is neither a class, namespace, nor function. The folders have the same name as the class, namespace, or function they document, in lowercase (for example `doc/comp/driver` for `comp.Driver`).
