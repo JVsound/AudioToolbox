@@ -27,6 +27,15 @@
 %[text] - **`doc/GettingStarted.m`** — single quick-start script auto-shown on install (see above).
 %[text] - **`toolbox/examples/`** **+** **`demos.xml`** — short, runnable example scripts (plain `%%` section breaks, not full live-script markup) registered in MATLAB's Examples gallery. \
 %[text] If this toolbox is ever packaged as an installable add-on, keep these three layers and this documentation hierarchy distinct rather than merging them. \\
+%[text] ## Tests and validation (outside the documentation hierarchy)
+%[text] Tests and validation material are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. They have their own top-level folder:
+%[text] - `tests` sits directly in the project root, as a sibling of 'toolbox', 'conventions' and 'sandbox'. It is deliberately **outside** 'toolbox', so it is not packaged with the toolbox.
+%[text] - Automated tests: class-based `matlab.unittest` tests directly in 'tests', named after the class they test with the suffix `Test` (for example `FeaEnclosureTest.m`).
+%[text] - Helper functions shared by the tests, for example `createTestDriver.m` (the fixture driver): directly in 'tests', named like a function (lowerCamelCase).
+%[text] - Reference data, datasheets (such as the PDF of the test driver) small FEA result files and digitized datasheet curves used by the tests, plus the scripts that generate them (for example `digitizeImpedance.m`): `tests/helperfiles`, following the same 'helperfiles' naming as the documentation folders.
+%[text] - Validation reports (narrative, with comparison plots): live scripts in `tests/validation`.
+%[text] - Documentation pages in 'toolbox/doc' must **not** link to files in 'tests'. 'tests' is not packaged, so such a link would break in an installed toolbox. Mention the validation status in plain text instead.
+%[text] - The 'tests' folder and its subfolders are added to the MATLAB project and project path manually, like the 'doc' folders. \
 
 %[appendix]{"version":"1.0"}
 %---

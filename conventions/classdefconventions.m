@@ -84,7 +84,7 @@
 %[text] | Inside parentheses, brackets and braces | no space after the opening or before the closing character (`f(x)`, `[1 2 3]`, `c{k}`) | R-SPACE-003 |
 %[text] | After a comma or semicolon | MathWorks: one space, except at the end of a line (`f(a, b)`). **Not followed here for commas:** they are written without a space (`f(a,b)`, `(1,:)`), as in the MATLAB class template | R-SPACE-004 |
 %[text] | End of a line | no trailing whitespace | R-SPACE-005 |
-%[text] | Around `=` in an assignment | one space on each side (`x = 3`); none in `Name=Value` (`plot(x, y, LineWidth=3)`) | R-SPACE-006 |
+%[text] | Around `=` in an assignment | one space on each side (`x = 3`); none in `Name=Value` | R-SPACE-006 |
 %[text] | Around relational operators (`<`, `<=`, `==`, `~=`, `>`, `>=`) | one space on each side (`if x <= 3`) | R-SPACE-007 |
 %[text] | Around logical AND and OR operators | one space on each side (`a & b`, `a && b`) | R-SPACE-008 |
 %[text] | Around the colon operator | no spaces, also not in the operands (`2:2:10`, `A(2:end-1)`) | R-SPACE-009 |
