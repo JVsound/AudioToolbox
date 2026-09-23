@@ -1,52 +1,75 @@
 classdef result
-	%RESULT Class containing result arrays for the lspsys class
-	%calculations.
+    %RESULT Results of a loudspeaker system calculation
+    %   A result object holds the arrays that lspsys calculates over Frequency: the source voltage and
+    %   current and the volume velocities of the diaphragm and the radiated sound. lspsys.createResult
+    %   creates it. ElectricalImpedance, Pressure and SoundPressureLevel are derived from these arrays.
 
-	properties (SetAccess = ?lspsys)
-		Frequency	(1,:)	double			= 0;
-		SourceVoltage	(1,:)	double			= 0;
-		SourceCurrent	(1,:)	double			= 0;
-		DiaphragmVolumeVelocity	(1,:)	double			= 0;
-		RadiatedVolumeVelocity	(1,:)	double			= 0;
-		RadiationAngle	(1,1)	string			= "2pi";
-	end
+    properties (SetAccess = ?lspsys)
+        Frequency (1,:) double = 0; % Frequencies of the calculation in [Hz]
+        SourceVoltage (1,:) double = 0; % RMS voltage of the source in [V]
+        SourceCurrent (1,:) double = 0; % Current of the source in [A]
+        DiaphragmVolumeVelocity (1,:) double = 0; % Volume velocity of the diaphragm in [m3/s]
+        RadiatedVolumeVelocity (1,:) double = 0; % Volume velocity of the radiated sound in [m3/s]
+        RadiationAngle (1,1) string = "2pi"; % Radiation angle of the enclosure
+    end
 
-	properties
-		ObservationRadius	(1,1)	double		{mustBePositive}		= 1;	% Radius [m] relative to radiation surface where sound pressure level is calculated.
-	end
+    properties
+        MicRadius (1,1) double {mustBePositive} = 1; % Distance in [m] from the radiation surface to the microphone
+    end
 
-	properties (Dependent)
-		ElectricalImpedance	(1,:)	double
-		Pressure	(1,:)	double
-		SoundPressureLevel (1,:)	double
-	end
+    properties (Dependent)
+        ElectricalImpedance % Electrical impedance of the system in [Ohm]
+        Pressure % Complex sound pressure at MicRadius in [Pa]
+        SoundPressureLevel % Sound pressure level at MicRadius in [dB]
+    end
 
-	methods
-		function obj = result
-			%RESULT Object constructor
+    methods
+        function obj = result
+            %RESULT Create a result object
+            %   obj = result creates a result object with all arrays set to zero.
+        end
 
-		end
-		function val = get.ElectricalImpedance(obj)
-			%ElectricalImpedance Electric impedance of system
+        function val = get.ElectricalImpedance(obj)
+            %ELECTRICALIMPEDANCE Electrical impedance of the system in [Ohm]
+            val = obj.SourceVoltage./obj.SourceCurrent;
+        end
 
-			val = obj.SourceVoltage ./ obj.SourceCurrent;
+        function val = get.Pressure(obj)
+            %PRESSURE Complex sound pressure at MicRadius in [Pa]
 
-		end
-		function val = get.Pressure(obj)
-			%Pressure Sound pressure [Pa] at ObservationRadius
+            % Pressure on the axis of a source with volume velocity Q that radiates into the solid angle of
+            % RadiationAngle, at distance r in the far field: p = j*w*rho*Q*exp(-j*k*r)/(solidAngle*r).
+            % Source: L. Beranek and T. Mellow, Acoustics: Sound Fields, Transducers and Vibration, 2nd ed.,
+            % Academic Press, 2019 (sound sources: monopole and piston in an infinite baffle).
 
-			if obj.RadiationAngle == "2pi"
+            % Solid angle in [sr]. Give every supported RadiationAngle its solid angle here:
+            switch obj.RadiationAngle
+                case "2pi"
+                    solidAngle = 2*pi;
+                otherwise
+                    error("result:unsupportedRadiationAngle","Unsupported radiation angle ""%s"".",obj.RadiationAngle)
+            end
 
-			end
+            % Angular frequency in [rad/s]:
+            w = 2*pi*obj.Frequency;
 
+            % Wave number in [rad/m]:
+            k = lspsys.f2k(obj.Frequency);
 
+            % Density of air in [kg/m3], volume velocity in [m3/s] and distance in [m]:
+            rho = lspsys.AirDensity;
+            Q = obj.RadiatedVolumeVelocity;
+            r = obj.MicRadius;
 
-			val = 1;
-		end
-		function val = get.SoundPressureLevel(obj)
-			%SoundPressureLevel Sound pressure level
+            % Sound pressure:
+            val = 1i*rho*w.*Q.*exp(-1i*k*r)/(solidAngle*r);
+        end
 
-			val = 1;
-		end
-	end
+        function val = get.SoundPressureLevel(obj)
+            %SOUNDPRESSURELEVEL Sound pressure level at MicRadius in [dB]
+
+            % Level of the RMS pressure relative to the reference pressure of lspsys:
+            val = 20*log10(abs(obj.Pressure)/lspsys.ReferencePressure);
+        end
+    end
 end

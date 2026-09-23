@@ -6,13 +6,13 @@ clearvars; close all; clc;
 %[text] ## Build a driver
 %[text] Create a `comp.Driver` and set its Thiele/Small parameters:
 d			= comp.Driver;
-d.Re		= 5.3;
-d.Le		= 1.9e-3;
-d.Qes		= 0.32;
-d.Qms		= 5.6;
+d.Re		= 6;
+d.Le		= 2.2e-3;
+d.Qes		= 0.38;
+d.Qms		= 6.4;
 d.Fs		= 32;
-d.Sd		= 1210e-4;
-d.Vas		= 187e-3;
+d.Sd		= 1680e-4;
+d.Vas		= 200e-3;
 %[text] ## Build an enclosure
 %[text] Create a `comp.ClosedBox` enclosure and mount the driver in it:
 e				= comp.ClosedBox;

@@ -1,6 +1,6 @@
 %[text] # Documentation defaults
 %[text] **J.G. Vermond, JVsound**
-%[text] Default layout for documentation in the JVsound Toolbox. The folder structure and the file names are described in `documentationhierarchy.m`; this document describes the content and the formatting of the documentation files. `lspsysdoc.m` is the example of a class page.
+%[text] Default layout for documentation in the Loudspeaker System Toolbox. The folder structure and the file names are described in `documentationhierarchy.m`; this document describes the content and the formatting of the documentation files. `lspsysdoc.m` is the example of a class page.
 %%
 %[text] ## Classes
 %[text] Classes are documented with the same layout that MathWorks shows on its site for a class. Reference: [matlab.unittest.TestCase class](https://nl.mathworks.com/help/matlab/ref/matlab.unittest.testcase-class.html); for the layout of properties: [matlab.unittest.TestRunner class](https://nl.mathworks.com/help/matlab/ref/matlab.unittest.testrunner-class.html). The sections appear in this order:

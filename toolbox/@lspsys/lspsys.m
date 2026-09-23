@@ -5,9 +5,9 @@ classdef lspsys
     %   Frequency with a two-port network model.
 
     properties (Access = public)
-        Frequency (1,:) double {mustBePositive} = logspace(log10(2e1),log10(2e4),1e3); % Frequencies of the calculation in [Hz]
-        SourceVoltage (1,1) double {mustBePositive} = 2.83; % Voltage of the source in [V]
-        RadiationAngle (1,1) string {mustBeMember(RadiationAngle,"2pi")} = "2pi"; % Radiation angle of the enclosure, only "2pi" is supported
+        Frequency (1,:) double {mustBePositive} = logspace(log10(2e1),log10(2e4),1e3); % Frequencies in [Hz]
+        SourceVoltage (1,1) double {mustBePositive} = 2.83; % RMS voltage of the source in [V]
+        RadiationAngle (1,1) string {mustBeMember(RadiationAngle,"2pi")} = "2pi"; % Radiation angle of the enclosure
         Enclosure (1,1) comp.Enclosure = comp.ClosedBox; % Enclosure that contains the driver
     end
 

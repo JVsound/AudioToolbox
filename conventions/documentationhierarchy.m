@@ -1,6 +1,6 @@
 %[text] # Documentation hierarchy
 %[text] **J.G. Vermond, JVsound**
-%[text] ## Hierarchy in documentation folder of JVsound toolbox
+%[text] ## Hierarchy in documentation folder of Loudspeaker System Toolbox
 %[text] Directly in the 'toolbox' folder there is a 'doc' folder, which contains all documentation for the toolbox.
 %[text] - First subdivision (folders directly in 'doc'): folders for each class, namespace, or standalone function directly located in the 'toolbox' directory, with the exception of the 'doc' folder itself, which is neither a class, namespace, nor function. The folders have the same name as the class, namespace, or function they document, in lowercase (for example `doc/comp/driver` for `comp.Driver`).
 %[text] - Inside a class or function folder: a single live script file describing that class or function (see 'Filename conventions' below), plus a 'helperfiles' subfolder.
@@ -8,7 +8,8 @@
 %[text] - Each documentation folder (class, function, or namespace) gets its own subfolder called 'helperfiles', for figures, additional info etc. This keeps helper files unambiguous even for namespaces with several classes, since each class keeps its own 'helperfiles'.
 %[text] - A class or function documentation folder may also contain a `methods` subfolder. Only public instance methods substantial enough to warrant their own page go here (trivial accessors don't) — each gets its own subfolder inside `methods`, named after it, again recursing the same class/function pattern one level down: `methods/<methodname>doc/<methodname>doc.m` plus its own `helperfiles` subfolder.
 %[text] - `doc/GettingStarted.m` is reserved by MathWorks' own toolbox-packaging convention (used by `packageToolbox`/the `matlab-package-toolbox` skill, following [mathworks/toolboxdesign](https://github.com/mathworks/toolboxdesign)) as the single onboarding script shown automatically on installation. It coexists directly inside `doc/` alongside the class/namespace subfolders described above — never repurpose or overwrite it for class documentation, and it must keep running in under 5 seconds without user interaction.
-%[text] - `doc/overview.m` is the landing live script for the whole hierarchy: a short page that links to every top-level class and namespace documentation folder, so a reader does not have to discover the structure by browsing folders. \
+%[text] - `doc/overview.m` is the landing live script for the whole hierarchy: a short page that links to every top-level class and namespace documentation folder, so a reader does not have to discover the structure by browsing folders.
+%[text] - `doc/symbols.m` is a nomenclature reference: a single table, sorted alphabetically by symbol, listing every physical quantity's mathematical symbol (in LaTeX), unit and the MATLAB property or method that holds it. It coexists directly inside `doc/`, like `GettingStarted.m` and `overview.m`, since it spans more than one class. \
 %[text] ## Filename conventions
 %[text] - A documentation file is named as the class, namespace-member, or function it documents, all lowercase, with the literal suffix `doc` appended directly (no separator): `<name>doc.m`. Examples: `lspsysdoc.m`, `driverdoc.m`, `enclosuredoc.m`. This applies at every nesting level, including inside namespace subfolders. \
 %[text] ## Links between documentation files

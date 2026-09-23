@@ -1,6 +1,6 @@
 %[text] # JVsound Toolbox — Documentation Overview
 %[text] JVsound, J.G. Vermond
-%[text] This page links to the documentation for every currently documented class and namespace in the toolbox. New here? Start with [Getting Started](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','GettingStarted.m'))).
+%[text] This page links to the documentation for every currently documented class and namespace in the toolbox. New here? Start with [Getting Started](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','GettingStarted.m'))). See also the [list of symbols](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','symbols.m'))) used throughout the toolbox.
 %[text] ## Classes
 %[text] - [`lspsys`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','lspsysdoc.m'))) — Loudspeaker system, including its environment.
 %[text] - [`result`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','result','resultdoc.m'))) — Frequency-domain result of a solved loudspeaker system. \

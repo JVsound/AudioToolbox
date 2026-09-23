@@ -62,7 +62,7 @@
 <text x="54" y="192" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">DiaphragmVolumeVelocity: double</text>
 <text x="54" y="214" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">RadiatedVolumeVelocity: double</text>
 <text x="54" y="236" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">RadiationAngle: string</text>
-<text x="54" y="258" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">ObservationRadius: double</text>
+<text x="54" y="258" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">MicRadius: double</text>
 <rect x="40" y="264" width="330" height="24" fill="#eef1f5"/>
 <text x="54" y="280" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Dependent</text>
 <text x="54" y="304" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">ElectricalImpedance: double</text>
