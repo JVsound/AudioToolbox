@@ -4,42 +4,43 @@
 %[text:table]{"columnWidths":[80,80,-1]}
 %[text] | Symbol | Unit | Property |
 %[text] | --- | --- | --- |
-%[text] | $ a $ | m | `comp.Driver.DiaphragmRadius` |
-%[text] | $ Bl $ | Tm | `comp.Driver.Bl` |
-%[text] | $ c $ | m/s | `lspsys.SpeedOfSound` |
-%[text] | $ C_{ms} $ | m/N | `comp.Driver.Cms` |
-%[text] | $ e_g $ | V (RMS) | `lspsys.SourceVoltage`, `result.SourceVoltage` |
-%[text] | $ f $ | Hz | `lspsys.Frequency`, `result.Frequency` |
-%[text] | $ f_s $ | Hz | `comp.Driver.Fs` |
-%[text] | $ i_g $ | A | `result.SourceCurrent` |
-%[text] | $ k $ | rad/m | `lspsys.WaveNumber` |
-%[text] | $ \\lambda $ | m | `lspsys.Wavelength` |
-%[text] | $ L_e $ | H | `comp.Driver.Le` |
-%[text] | $ L_p $ | dB | `result.SoundPressureLevel` |
-%[text] | $ M_{md} $ | kg | `comp.Driver.Mmd` |
-%[text] | $ M_{mi} $ | kg | `comp.Driver.Mmi` |
-%[text] | $ M_{ms} $ | kg | `comp.Driver.Mms` |
-%[text] | $ \\omega $ | rad/s | `lspsys.AngularFrequency` |
-%[text] | $ \\Omega $ | sr | `lspsys.RadiationAngle`, `result.RadiationAngle` |
-%[text] | $ p $ | Pa | `result.Pressure` |
-%[text] | $ p_0 $ | Pa | `lspsys.ReferencePressure` |
-%[text] | $ Q_d $ | m3/s | `result.DiaphragmVolumeVelocity` |
-%[text] | $ Q_{es} $ | - | `comp.Driver.Qes` |
-%[text] | $ Q_{ms} $ | - | `comp.Driver.Qms` |
-%[text] | $ Q_r $ | m3/s | `result.RadiatedVolumeVelocity` |
-%[text] | $ Q_{ts} $ | - | `comp.Driver.Qts` |
-%[text] | $ r $ | m | `result.MicRadius` |
-%[text] | $ R_e $ | Ohm | `comp.Driver.Re` |
-%[text] | $ \\rho $ | kg/m3 | `lspsys.AirDensity` |
-%[text] | $ R_{ms} $ | Ns/m | `comp.Driver.Rms` |
-%[text] | $ S_d $ | m2 | `comp.Driver.Sd` |
-%[text] | $ V_{as} $ | m3 | `comp.Driver.Vas` |
-%[text] | $ V_b $ | m3 | `comp.ClosedBox.RearVolume` |
-%[text] | $ Z_{af} $ | Pa.s/m3 | `comp.ClosedBox.zaf` |
-%[text] | $ Z_{ar} $ | Pa.s/m3 | `comp.ClosedBox.zar` |
-%[text] | $ Z_e $ | Ohm | `result.ElectricalImpedance` |
-%[text] | $ Z_{eb} $ | Ohm | `comp.Driver.ze` |
-%[text] | $ Z_m $ | Ns/m | `comp.Driver.zm` |
+%[text] | $ Bl $ | Tm | `Bl` |
+%[text] | $ c $ | m/s | `SpeedOfSound` |
+%[text] | $ C_{a,cb,r} $ | m5/N | `zacbr` |
+%[text] | $ C_{ms} $ | m/N | `Cms` |
+%[text] | $ e_g $ | V (RMS) | `SourceVoltage` |
+%[text] | $ f $ | Hz | `Frequency` |
+%[text] | $ f_s $ | Hz | `Fs` |
+%[text] | $ i_g $ | A | `SourceCurrent` |
+%[text] | $ k $ | rad/m | `WaveNumber` |
+%[text] | $ \\lambda $ | m | `Wavelength` |
+%[text] | $ L_e $ | H | `Le` |
+%[text] | $ L_p $ | dB | `SoundPressureLevel` |
+%[text] | $ M_{md} $ | kg | `Mmd` |
+%[text] | $ M_{mi} $ | kg | `Mmi` |
+%[text] | $ M_{ms} $ | kg | `Mms` |
+%[text] | $ \\omega $ | rad/s | `AngularFrequency` |
+%[text] | $ \\Omega $ | sr | `RadiationAngle` |
+%[text] | $ p $ | Pa | `Pressure` |
+%[text] | $ p_0 $ | Pa | `ReferencePressure` |
+%[text] | $ Q_{es} $ | - | `Qes` |
+%[text] | $ Q_{ms} $ | - | `Qms` |
+%[text] | $ Q_{ts} $ | - | `Qts` |
+%[text] | $ r_d $ | m | `DiaphragmRadius` |
+%[text] | $ R_e $ | Ohm | `Re` |
+%[text] | $ \\rho $ | kg/m3 | `AirDensity` |
+%[text] | $ r_{mic} $ | m | `MicRadius` |
+%[text] | $ R_{ms} $ | Ns/m | `Rms` |
+%[text] | $ S_d $ | m2 | `Sd` |
+%[text] | $ U_d $ | m3/s | `DiaphragmVolumeVelocity` |
+%[text] | $ U_r $ | m3/s | `RadiatedVolumeVelocity` |
+%[text] | $ V_{as} $ | m3 | `Vas` |
+%[text] | $ V_b $ | m3 | `RearVolume` |
+%[text] | $ Z_{a,cb,r} $ | Pa.s/m3 | `zacbr` |
+%[text] | $ Z_{a,rad,f} $ | Pa.s/m3 | `zaradf` |
+%[text] | $ Z_e $ | Ohm | `ElectricalImpedance` |
+%[text] | $ Z_{eb} $ | Ohm | `ze` |
+%[text] | $ Z_m $ | Ns/m | `zm` |
 %[text:table]
 
 %[appendix]{"version":"1.0"}

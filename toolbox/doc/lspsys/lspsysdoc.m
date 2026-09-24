@@ -6,7 +6,7 @@
 %%
 %[text] ## Description
 %[text] The `lspsys` class models a loudspeaker system: a driver (`comp.Driver`) mounted in an enclosure (`comp.Enclosure`) that radiates into its environment, which is described by the speed of sound, the density of air and a reference pressure. All quantities are calculated in the frequency domain, for the frequencies in `Frequency`.
-%[text] The system is solved as a chain of two-port networks: electrical, transduction, mechanical, diaphragm, and the acoustic front and rear side of the diaphragm (see `solve2PortNetwork`). `createResult` returns the outcome as a `result` object.
+%[text] The system is solved as a chain of two-port networks: electrical, transduction, mechanical, diaphragm and acoustical (see [`solve2PortNetwork`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','methods','solve2portnetworkdoc','solve2portnetworkdoc.m')))). The acoustical two-port network holds the 4-ports of the enclosure and of the radiation, at the front and the rear of the diaphragm, which the enclosure reduces to the 2 × 2 matrix `ta`. `createResult` returns the outcome as a `result` object.
 %%
 %[text] ## Creation
 %[text] ```matlabCodeExample
@@ -34,7 +34,7 @@
 %%
 %[text] ### `Enclosure` — Enclosure with driver
 %[text] `(1,1) comp.Enclosure`
-%[text] Enclosure that the driver is mounted in. The driver itself is the property `Enclosure.Driver`. Default: `comp.ClosedBox`.
+%[text] Enclosure that the driver is mounted in. The driver itself is the property `Enclosure.Driver`. Default: [`comp.ClosedBox`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','closedbox','closedboxdoc.m'))).
 %[text] **Attributes:** `GetAccess = public`, `SetAccess = public`
 %%
 %[text] ### `AngularFrequency` — Angular frequency

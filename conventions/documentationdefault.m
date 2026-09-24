@@ -24,6 +24,12 @@
 %[text] - Before every heading (`##` and `###`), except the title, there is a `%%` on its own line, so that every heading is a section of its own.
 %[text] - From the Description chapter on, every MATLAB name in running text is written in monospace (with backticks): classes, methods, functions, properties, arguments, variables and so on. Units, such as Hz and kHz, are not MATLAB names and are not written in monospace. This does not apply in the Title block.
 %[text] - A class page has no table of contents: MathWorks does not show one in the class page itself either, and with every property as a heading the list would become unwieldy. \
+%%
+%[text] ### Width of figures and tables
+%[text] Every figure and every table stays completely visible when the live script is exported to PDF. The export does not scale content to the page: a width of 1 px in the live script becomes 0.75 pt in the PDF, and whatever is wider than the text width is cut off. Without the `Margins` option, the export uses margins of 28 pt (measured in the exported PDF; the help of `export` mentions 72 pt), so the text width is 539 pt on A4 and 556 pt on Letter. Therefore:
+%[text] - An image is at most 700 px wide: the `width` in its appendix entry is 700 or less, and its `height` keeps the ratio of the PNG.
+%[text] - A table has a sum of `columnWidths` of 700 px or less. A column with width `-1` is as wide as its content, so its content must fit in what the fixed columns leave of the 700 px.
+%[text] - Export to PDF without the `Margins` option, for example `export("name.m","name.pdf",PageSize="A4")`. \
 
 %[appendix]{"version":"1.0"}
 %---

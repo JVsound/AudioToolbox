@@ -26,8 +26,14 @@
 %[text] These per-class/per-namespace live scripts are the toolbox's **deep reference layer**. They complement, and do not replace, two other layers that MathWorks' toolbox-packaging conventions expect ([mathworks/toolboxdesign](https://github.com/mathworks/toolboxdesign), surfaced locally by the `matlab-package-toolbox` skill):
 %[text] - **Inline help** (H1 line + syntax paragraphs in the `classdef`/function file itself) — what answers `help ClassName` / `doc ClassName` on the command line. Covered separately by the `matlab-write-help` skill/guidelines, not by this hierarchy.
 %[text] - **`doc/GettingStarted.m`** — single quick-start script auto-shown on install (see above).
-%[text] - **`toolbox/examples/`** **+** **`demos.xml`** — short, runnable example scripts (plain `%%` section breaks, not full live-script markup) registered in MATLAB's Examples gallery. \
+%[text] - **`toolbox/examples/`** — runnable examples as live scripts, see 'Examples' below. \
 %[text] If this toolbox is ever packaged as an installable add-on, keep these three layers and this documentation hierarchy distinct rather than merging them. \\
+%[text] ## Examples
+%[text] Examples follow MathWorks' toolbox design ([mathworks/toolboxdesign](https://github.com/mathworks/toolboxdesign)): "We recommend using MATLAB Live Scripts to show how to use different parts of your toolbox and including them in an `examples` folder under the toolbox folder."
+%[text] - Examples live in `toolbox/examples`, a sibling of 'doc' and the class folders, so they are packaged with the toolbox. They are not part of the documentation hierarchy above.
+%[text] - Each example is one live script in the plain-text format (`.m`), named like a function in lowerCamelCase after what it shows (for example `closedBoxExample.m`; MathWorks' own example is `usingAdd.mlx`). Supporting files go in `toolbox/examples/helperfiles`.
+%[text] - An example does not depend on files in 'tests', which is not packaged: it creates everything it needs itself.
+%[text] - Documentation pages may link to an example with the `which('lspsys')` anchor, with `'examples'` instead of `'doc'` after the toolbox folder. \
 %[text] ## Tests and validation (outside the documentation hierarchy)
 %[text] Tests and validation material are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. They have their own top-level folder:
 %[text] - `tests` sits directly in the project root, as a sibling of 'toolbox', 'conventions' and 'sandbox'. It is deliberately **outside** 'toolbox', so it is not packaged with the toolbox.

@@ -12,9 +12,9 @@ disp(datetime("today")) %[output:3a6d6af6]
 %[text] #### `ElectricalImpedance`
 %[text] %[text:anchor:TMP_93f5] 
 %[text] #### `Pressure`
-%[text] Pressure \[Pa\] at distance `MicRadius` (r in the equation below). The applied equation depend on the radiation angle. 
+%[text] Pressure \[Pa\] at distance `MicRadius` ($r_{mic}$ in the equation below). The applied equation depend on the radiation angle. 
 %[text] Radiation from a monopole point source (simple source) is as follows:
-%[text] $p(r) = jk\\rho c Q \\frac{e^{-jkr}}{4\\pi r}$
+%[text] $p(r_{mic}) = jk\\rho c U_r \\frac{e^{-jkr_{mic}}}{4\\pi r_{mic}}$
 %[text] Far-field on 
 %[text] #### `SoundPressureLevel`
 %[text] 

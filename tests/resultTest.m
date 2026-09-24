@@ -19,11 +19,11 @@ classdef resultTest < matlab.unittest.TestCase
             testResult = testCase.createTestResult(RadiationAngle);
             rho = lspsys.AirDensity;
             f = testResult.Frequency;
-            Q = testResult.RadiatedVolumeVelocity;
-            r = testResult.MicRadius;
+            Ur = testResult.RadiatedVolumeVelocity;
+            rMic = testResult.MicRadius;
 
             % Radiation angle "2pi": the factor 2*pi of the angular frequency cancels the 2*pi of the radiation:
-            expected = rho*f.*abs(Q)/r;
+            expected = rho*f.*abs(Ur)/rMic;
             testCase.verifyEqual(abs(testResult.Pressure),expected,RelTol=1e-12);
         end
 
