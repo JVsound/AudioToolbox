@@ -9,7 +9,7 @@ disp(datetime("today")) %[output:698984c1]
 %[text] ### Dependent
 %[text] ## Methods
 %[text] ### Instance methods
-%[text] - [`ze`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','methods','zedoc','zedoc.m'))) — Electrical impedance vs. frequency.
+%[text] - [`zeb`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','methods','zebdoc','zebdoc.m'))) — Blocked electrical impedance vs. frequency.
 %[text] - [`zm`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','methods','zmdoc','zmdoc.m'))) — Mechanical impedance vs. frequency.
 %[text] - [`te`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','methods','tedoc','tedoc.m'))) — Electrical transmission (ABCD) matrix stack over frequency.
 %[text] - [`tbl`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','methods','tbldoc','tbldoc.m'))) — Transduction (gyrator) transmission matrix.

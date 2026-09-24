@@ -106,32 +106,38 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         parts(end+1) = frame(470, 630);
         labels(end+1, :) = {"T_{a,rad}", 482, 68, "start"};
         for y = [top bottom]
-            parts(end+1) = wire([60 y; mirror(60) y]); %#ok<AGROW>
             parts(end+1) = placeicon(openCircuit, 60, y, 0.4, 180, [5.4 22.5]); %#ok<AGROW>
             parts(end+1) = placeicon(openCircuit, mirror(60), y, 0.4, 0, [5.4 22.5]); %#ok<AGROW>
         end
+        parts(end+1) = wire([60 top; mirror(60) top]);
         parts(end+1) = wire([200 reference3; mirror(200) reference3]);
         parts(end+1) = placeicon(reference, 200, reference3, 0.015, 180, [16 1417]);
         parts(end+1) = placeicon(reference, mirror(200), reference3, 0.015, 0, [16 1417]);
-        parts(end+1) = placeicon(capacitor, 300, reference3, (bottom - reference3) / 162, 90, [9 90]);
-        parts(end+1) = dot(300, reference3);
-        parts(end+1) = dot(300, bottom);
-        labels(end+1, :) = {"C_{a,cb,r}", 318, (reference3 + bottom) / 2 + 8, "start"};
+
+        % Rear conductor: the acoustic mass Ma of the air load in series, then the compliance Ca to the reference
+        parts(end+1) = wire([60 bottom; 252 bottom]);
+        parts(end+1) = placeicon(inductor, 252, bottom, small, 0, [5.4 90]);
+        labels(end+1, :) = {"M_a", 283, below, "middle"};
+        parts(end+1) = wire([314 bottom; mirror(60) bottom]);
+        parts(end+1) = placeicon(capacitor, 350, reference3, (bottom - reference3) / 162, 90, [9 90]);
+        parts(end+1) = dot(350, reference3);
+        parts(end+1) = dot(350, bottom);
+        labels(end+1, :) = {"C_a", 366, (reference3 + bottom) / 2 + 8, "start"};
         parts(end+1) = impedancebox(530, top, reference3, ink);
         parts(end+1) = dot(530, top);
         parts(end+1) = dot(530, reference3);
-        labels(end+1, :) = {"Z_{a,rad,f}", 550, (top + reference3) / 2 + 8, "start"};
+        labels(end+1, :) = {"Z_{rad}", 550, (top + reference3) / 2 + 8, "start"};
         labels(end+1, :) = {"U_d", 100, above, "middle"};
         parts(end+1) = arrow(100, top);
         labels(end+1, :) = {"U_d", 100, below, "middle"};
         parts(end+1) = arrowLeft(100, bottom);
         labels(end+1, :) = {"p_1", 100, middle, "middle"};
-        labels(end+1, :) = {"U_{f2}", 435, above, "middle"};
+        labels(end+1, :) = {"U_f", 435, above, "middle"};
         parts(end+1) = arrow(435, top);
-        labels(end+1, :) = {"U_{r2}", 435, below, "middle"};
+        labels(end+1, :) = {"U_r", 435, below, "middle"};
         parts(end+1) = arrowLeft(435, bottom);
-        labels(end+1, :) = {"p_{f2}", 435, (top + reference3) / 2 + 8, "middle"};
-        labels(end+1, :) = {"p_{r2}", 435, (reference3 + bottom) / 2 + 8, "middle"};
+        labels(end+1, :) = {"p_f", 435, top + 26, "middle"};
+        labels(end+1, :) = {"p_r", 435, bottom - 18, "middle"};
         labels(end+1, :) = {"U_2", mirror(100), above, "middle"};
         parts(end+1) = arrow(mirror(100), top);
         labels(end+1, :) = {"U_2", mirror(100), below, "middle"};
@@ -155,8 +161,8 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         canvasWidth = 870;
         mirror = @(x) canvasWidth - x;
         spec = struct("blockLefts", [240 470], "names", ["T_{a,e}" "T_{a,rad}"], ...
-            "captions", ["enclosure" "radiation"], "gapX", 435, "frontFlows", "U_{f2}", ...
-            "rearFlows", "U_{r2}", "frontPressures", "p_{f2}", "rearPressures", "p_{r2}");
+            "captions", ["enclosure" "radiation"], "gapX", 435, "frontFlows", "U_f", ...
+            "rearFlows", "U_r", "frontPressures", "p_f", "rearPressures", "p_r");
         draw = struct("wire", wire, "arrow", arrow, "arrowLeft", arrowLeft, "ink", ink, ...
             "top", top, "reference", reference3, "bottom", bottom);
         [parts, labels] = drawfourports(parts, labels, spec, draw);
@@ -280,9 +286,9 @@ end
 function [parts, labels] = drawfourports(parts, labels, spec, draw)
     % Draw a cascade of 4-ports on the front, reference and rear conductor, with the labels at the gaps
 
-    % Flows point right on the front conductor and left on the rear conductor; an empty pressure is not drawn
-    frontPressureY = (draw.top + draw.reference) / 2 + 8;
-    rearPressureY = (draw.reference + draw.bottom) / 2 + 8;
+    % Flows point right on the front conductor and left on the rear conductor. The pressures, relative to the
+    frontPressureY = draw.top + 26;
+    rearPressureY = draw.bottom - 18;
     above = draw.top - 14;
     below = draw.bottom + 28;
     blockCenters = spec.blockLefts + 80;
@@ -321,7 +327,7 @@ function writesvg(svgPath, parts, labels, canvasWidth, canvasHeight)
     header = sprintf(['<?xml version="1.0" encoding="UTF-8"?>\n' ...
         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="%d" ' ...
         'height="%d" viewBox="0 0 %d %d" role="img">\n' ...
-        '<title>JVsound Toolbox 2-port network diagram</title>\n' ...
+        '<title>Loudspeaker System Toolbox 2-port network diagram</title>\n' ...
         '<rect width="100%%" height="100%%" fill="#ffffff"/>\n'], ...
         canvasWidth, canvasHeight, canvasWidth, canvasHeight);
     document = string(header) + strjoin(parts, newline) + newline + "</svg>" + newline;
@@ -409,7 +415,7 @@ function texSvg = typesettex(texList)
     [status, output] = system(command);
     json = regexp(output, '<pre id="out">(.*?)</pre>', "tokens", "once");
     if status ~= 0 || isempty(json) || json{1} == ""
-        error("JVsound:generatenetworkdiagramsvg:typesetFailed", "Typesetting the labels with MathJax failed.");
+        error("generatenetworkdiagramsvg:typesetFailed", "Typesetting the labels with MathJax failed.");
     end
     json = replace(json{1}, ["&lt;", "&gt;", "&quot;", "&amp;"], ["<", ">", """", "&"]);
     texSvg = string(jsondecode(json));

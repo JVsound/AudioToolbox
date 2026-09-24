@@ -37,8 +37,8 @@ classdef result
         function val = get.Pressure(obj)
             %PRESSURE Complex sound pressure at MicRadius in [Pa]
 
-            % Pressure on the axis of a source with volume velocity Ur that radiates into the solid angle of
-            % RadiationAngle, at distance rMic in the far field: p = j*w*rho*Ur*exp(-j*k*rMic)/(solidAngle*rMic).
+            % Pressure on the axis of a source with volume velocity Urad that radiates into the solid angle of
+            % RadiationAngle, at distance rMic in the far field: p = j*w*rho*Urad*exp(-j*k*rMic)/(solidAngle*rMic).
             % Source: L. Beranek and T. Mellow, Acoustics: Sound Fields, Transducers and Vibration, 2nd ed.,
             % Academic Press, 2019 (sound sources: monopole and piston in an infinite baffle).
 
@@ -58,11 +58,11 @@ classdef result
 
             % Density of air in [kg/m3], volume velocity in [m3/s] and distance in [m]:
             rho = lspsys.AirDensity;
-            Ur = obj.RadiatedVolumeVelocity;
+            Urad = obj.RadiatedVolumeVelocity;
             rMic = obj.MicRadius;
 
             % Sound pressure:
-            val = 1i*rho*w.*Ur.*exp(-1i*k*rMic)/(solidAngle*rMic);
+            val = 1i*rho*w.*Urad.*exp(-1i*k*rMic)/(solidAngle*rMic);
         end
 
         function val = get.SoundPressureLevel(obj)

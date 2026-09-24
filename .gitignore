@@ -31,3 +31,10 @@ codegen/
 
 # Cloud based storage dotfile
 .MATLABDriveTag
+
+# Package and cache of buildtool (buildfile.m)
+release/
+.buildtool/
+
+# Personal settings of Claude Code
+.claude/settings.local.json

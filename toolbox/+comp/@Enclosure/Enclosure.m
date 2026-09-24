@@ -1,97 +1,62 @@
 classdef (Abstract) Enclosure
-	%Enclosure
+    %ENCLOSURE Base class for the enclosure of a loudspeaker driver
+    %   An enclosure holds a driver (Driver) and describes the acoustical side of the loudspeaker system with
+    %   two 4-ports on the front, reference and rear conductor: tae for the enclosure and tarad for the
+    %   radiation. lspsys.solve2PortNetwork reduces them to the 2-port of the acoustical side. zarad and
+    %   struve are helper functions for radiation impedances.
 
-	properties
-		Driver	(1,1) comp.Driver			= comp.Driver;
-	end
+    properties
+        Driver (1,1) comp.Driver = comp.Driver; % Driver that is mounted in the enclosure
+    end
 
-	methods
-		function obj = Enclosure
-			%Enclosure
-		end
-
-        function val = ta(obj,f,ra)
-            %TA Transmission matrix T_a of the acoustical side, 2 x 2 for each frequency
-            %   val = ta(obj,f,ra) reduces the 4-ports tae (enclosure) and tarad (radiation) on the front,
-            %   reference and rear conductor to the 2-port T_a. Port 1 is the front and rear conductor at the
-            %   diaphragm, port 2 the front and rear conductor at the output. Flows count to the right on the
-            %   front and to the left on the rear conductor.
-            Tae = obj.tae(f,ra);
-            Tarad = obj.tarad(f,ra);
-            nf = numel(f);
-            val = zeros(2,2,nf);
-
-            % Port 2: p_2 = p_f - p_r and U_f = U_r = U_2, with the free pressure p_r: x = P*[p_2; U_2] + q*p_r
-            P = [1 0; 0 1; 0 0; 0 1];
-            q = [1; 0; 1; 0];
-            for i = 1:nf
-                M = Tae(:,:,i)*Tarad(:,:,i);
-
-                % Rows 2 and 4 both give U_d, which fixes p_r:
-                d = M(2,:) - M(4,:);
-                K = P - q*(d*P)/(d*q);
-
-                % Port 1: p_1 = p_f - p_r (rows 1 and 3) and U_d (row 2):
-                val(:,:,i) = [M(1,:) - M(3,:); M(2,:)]*K;
-            end
+    methods
+        function obj = Enclosure
+            %ENCLOSURE Create an enclosure
+            %   obj = Enclosure is called by the constructor of a subclass; the enclosure gets a default driver.
         end
-	end
+    end
 
-	methods (Abstract)
-		val = tae(obj,f,ra)
-		val = tarad(obj,f,ra)
-		val = diaphragm2RadiatedVolumeVelocity(obj,f,ra)
-	end
+    methods (Abstract)
+        val = tae(obj,f,ra)
+        val = tarad(obj,f,ra)
+    end
 
-	methods (Static)
-		function val	= zarad(rd,w)
-            %zarad Radiation impedance
-            %
-            %   Radiation impedance of a rigid circular piston in an
-            %   infinite baffle.
+    methods (Static)
+        function val = zarad(rd,w)
+            %ZARAD Radiation impedance of a rigid circular piston in an infinite baffle
+            %   val = zarad(rd,w) returns the radiation impedance in [Pa.s/m3] of a rigid circular piston with
+            %   the radius rd in [m] in an infinite baffle, at the angular frequencies w in [rad/s].
 
-            arguments
-                rd  (1,1) double
-                w   (1,:) double
-            end
-            
-            % Extract parameters from acoustics package:
-            rho     = lspsys.AirDensity;
-            c       = lspsys.SpeedOfSound;
-            
-            % Calculating wave number:
-            k       = w/c;
-            
-            % Calculating Bessel function of the first kind:
-            besselJ1  = besselj(1,2*k*rd);
-            
-            % Calculating Struve function of the first kind:
-            struveH1  = comp.Enclosure.struve(2*k*rd);
-            
-            % Specific radiation resistance:
-            rs      = rho * c * (1 - besselJ1 ./ (k*rd));
-            
-            % Specific radiation reactance:
-            xs      = rho * c * (struveH1) ./ (k*rd);
-            
+            % Density of air and speed of sound:
+            rho = lspsys.AirDensity;
+            c = lspsys.SpeedOfSound;
+
+            % Wave number:
+            k = w/c;
+
+            % Bessel function of the first kind:
+            besselJ1 = besselj(1,2*k*rd);
+
+            % Struve function of the first kind:
+            struveH1 = comp.Enclosure.struve(2*k*rd);
+
+            % Specific radiation resistance and reactance:
+            rs = rho*c*(1-besselJ1./(k*rd));
+            xs = rho*c*struveH1./(k*rd);
+
             % Specific impedance:
-            zs      = rs + 1i * xs;
-            
+            zs = rs + 1i*xs;
+
             % Radiation impedance:
-            val     = zs / (pi*rd^2);
-		end
-		function val    = struve(x)
-            %STRUVE Struve function of the first kind.
-            %
-            %   Source: "Approximation of the Struve function H1 occurring
-            %   in impedance calculations", by "Ronald M. Aarts and
-            %   Augustus J.E.M. Janssen.
+            val = zs/(pi*rd^2);
+        end
 
-            H1      = 2/pi - besselj(0,x) + ...
-                (16/pi - 5) * sin(x) ./ x + ...
-                (12 - 36/pi) * (1 - cos(x)) ./ x.^2;
-
-            val     = H1;
-		end
-	end
+        function val = struve(x)
+            %STRUVE Struve function of the first kind
+            %   val = struve(x) returns an approximation of the Struve function H1 of the first kind at x.
+            %   Source: R. M. Aarts and A. J. E. M. Janssen, "Approximation of the Struve function H1 occurring in
+            %   impedance calculations".
+            val = 2/pi - besselj(0,x) + (16/pi-5)*sin(x)./x + (12-36/pi)*(1-cos(x))./x.^2;
+        end
+    end
 end

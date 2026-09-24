@@ -1,4 +1,4 @@
-%[text] # JVsound Toolbox — Documentation Overview
+%[text] # Loudspeaker System Toolbox — Documentation Overview
 %[text] JVsound, J.G. Vermond
 %[text] This page links to the documentation for every currently documented class and namespace in the toolbox. New here? Start with [Getting Started](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','GettingStarted.m'))). See also the [list of symbols](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','symbols.m'))) used throughout the toolbox.
 %[text] ## Classes
@@ -7,8 +7,9 @@
 %[text] ## Namespace: `comp`
 %[text] Components used to build up a loudspeaker system.
 %[text] - [`comp.Driver`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','driver','driverdoc.m'))) — Electromechanical transducer.
-%[text] - [`comp.ClosedBox`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','closedbox','closedboxdoc.m'))) — Closed-box enclosure (draft). \
-%[text] The `comp` namespace also defines `Enclosure` (abstract base), `BassReflex`, `FeaEnclosure`, and `FrontLoadedHorn`, but these are not documented yet.
+%[text] - [`comp.Enclosure`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','enclosure','enclosuredoc.m'))) — Base class for the enclosure of a loudspeaker driver.
+%[text] - [`comp.ClosedBox`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','comp','closedbox','closedboxdoc.m'))) — Closed-box enclosure. \
+%[text] The `comp` namespace also defines `BassReflex`, `FeaEnclosure`, and `FrontLoadedHorn`, but these are not documented yet.
 %[text] ## Class diagram
 %[text] Overview of the classes in the toolbox and their relations, drawn from the class definitions (dashed outline: work in progress). The vector source is [classdiagramcollapsed.svg](matlab:web(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','helperfiles','classdiagramcollapsed.svg'),'-browser')).
 %[text]{"align":"center"} ![](text:image:9a3f)

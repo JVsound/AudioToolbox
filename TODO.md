@@ -5,32 +5,34 @@ that file as `% TODO: ...` (see the TODO/FIXME Report in the MATLAB Current Fold
 
 ## Open
 
-- [ ] Closed-box loudspeaker system (`comp.ClosedBox`)
-  - [ ] Code
-    - [ ] Review `zaradf`, `zacbr`, `tae` and `tarad` against closed-box theory (Beranek and Mellow, Small); decide
-      whether the radiation mass in `zaradf` must be left out because `Mms` already contains it (`fc` is now
-      64 Hz where the closed-form value is 69 Hz)
-    - [ ] Replace `diaphragm2RadiatedVolumeVelocity` by the radiated volume velocity from inside `ta` (port 2 open)
-    - [ ] Convert `comp.Enclosure` and `comp.ClosedBox` to `conventions\classdefconventions.m`
-  - [ ] Tests
-    - [ ] Resolve the failing tests `lowerCutoffFrequency` and `levelFollowsClosedBoxResponse` in `resultTest.m`
-    - [ ] Make `resultTest.m` sensitive to the box: use a smaller box (for example 20 L) for the closed-box
-      formulas and test that `RearVolume` changes the level
-    - [ ] Validate `fc` and `Qtc` against the closed-form values
-  - [ ] Documentation
-    - [ ] Complete `closedboxdoc.m` (first draft 2026-09-24) and add `enclosuredoc.m` for `comp.Enclosure`
-    - [ ] Re-embed the outputs of `lspsysdoc.m` and `GettingStarted.m`, now that `RearVolume` has effect
-    - [ ] Update `resultdoc.m` (`Pressure`, `SoundPressureLevel`, `MicRadius`)
-  - [ ] Examples
-    - [ ] Review `toolbox\examples\closedBoxExample.m` (first version 2026-09-24)
-    - [ ] Add a test that runs every example in `toolbox\examples`
+- [x] Closed-box loudspeaker system (`comp.ClosedBox`)
+  - [x] Code
+    - [x] Review `tae` and `tarad` against closed-box theory (Beranek and Mellow, Small): the air load on the rear
+      was missing, because `comp.Driver` takes the air load on both sides out of `Mmd`; added the acoustic mass
+      `Ma = Mmi/Sd^2` in series on the rear conductor of `tae`, so `fc` is now 45.2 Hz, as in Small (45.3 Hz)
+      (2026-09-24)
+    - [x] Replace `diaphragm2RadiatedVolumeVelocity` by the radiated volume velocity from the network: an enclosure
+      provides only `tae` and `tarad`, and `lspsys.solve2PortNetwork` reduces them and returns
+      `RadiatedVolumeVelocity` (2026-09-24)
+    - [x] Convert `comp.Enclosure` and `comp.ClosedBox` to `conventions\classdefconventions.m` (2026-09-24)
+  - [x] Tests
+    - [x] Test the sound pressure level of a closed box of 20 L against the theory of Small (`Le = 0`,
+      10 Hz to 400 Hz, `AbsTol = 0.3` dB): `tests\ClosedBoxTest.m`, the only test, explained in its help
+      (2026-09-24); the earlier, larger test setup is in the git history
+  - [x] Documentation
+    - [x] Complete `closedboxdoc.m` and add `enclosuredoc.m` for `comp.Enclosure` (2026-09-24)
+    - [x] Re-embed the outputs of `lspsysdoc.m` and `GettingStarted.m`, now that `RearVolume` has effect
+      (2026-09-24)
+    - [x] Rewrite `resultdoc.m` as a class page after `conventions\documentationdefault.m`: all properties,
+      including `Pressure`, `SoundPressureLevel` and `MicRadius`, with examples (2026-09-24)
+  - [x] Examples
+    - [x] Review `toolbox\examples\closedBoxExample.m` (2026-09-24)
 - [ ] FEA-enclosure loudspeaker system (`comp.FeaEnclosure`)
   - [ ] Code
-    - [ ] Implement `importAnsysPressureResults`, `tae`, `tarad` and `diaphragm2RadiatedVolumeVelocity` from the FEA
-      results
+    - [ ] Implement `importAnsysPressureResults`, `tae` and `tarad` from the FEA results
     - [ ] Convert `comp.FeaEnclosure` to `conventions\classdefconventions.m`
   - [ ] Tests
-    - [ ] Test `comp.FeaEnclosure` and compare it with `comp.ClosedBox` at low frequency
+    - [ ] Decide whether and how to test `comp.FeaEnclosure`, for example against `comp.ClosedBox` at low frequency
   - [ ] Documentation
     - [ ] Add `feaenclosuredoc.m` with the diagram of its 4-ports
   - [ ] Examples
@@ -38,27 +40,23 @@ that file as `% TODO: ...` (see the TODO/FIXME Report in the MATLAB Current Fold
 
 ## Other
 
-- [ ] Decide whether to rename the electrical impedance of the driver to the blocked electrical impedance
+- [x] Decide whether to rename the electrical impedance of the driver to the blocked electrical impedance
   - `comp.Driver.ze` returns `Re + 1i*w*Le`, the impedance of the voice coil with the diaphragm blocked, while
     `result.ElectricalImpedance` is the impedance of the whole system (motional part included)
-  - [ ] Decide on the new name for `ze` (and check the name of `te`, which uses it)
-  - [ ] If renamed: update the code, the tests and the documentation (`zedoc.m`, `tedoc.m`, `driverdoc.m`)
-- [ ] Support radiation angles other than `"2pi"`
+  - [x] Decide on the new name for `ze`: `zeb`, after the symbol $Z_{eb}$; `te` keeps its name, like `tm`
+    (2026-09-24)
+  - [x] Update the code and the documentation (`zebdoc.m`, `tedoc.m`, `driverdoc.m`, `symbols.m`, class
+    diagram) (2026-09-24)
+- [ ] Support radiation angles other than `"2pi"` (postponed on 2026-09-24: only `"2pi"` for now)
   - [ ] Extend the `RadiationAngle` validation in `lspsys` and the `ra == "2pi"` branches in the enclosures
-  - [ ] Add the solid angle to the `switch` in `result.get.Pressure` and the angle to the test parameter
-    `RadiationAngle` of `resultTest.m`
-  - [ ] Test the error `result:unsupportedRadiationAngle` for an unsupported angle
-- [ ] Find out when and how the tests run
-  - Current state (2026-09-21): nothing runs automatically. There is no `buildfile.m`, no `.github` folder and no
-    Project shortcuts.
-  - [ ] Decide how the tests are started: by hand (`runtests`, Test Browser), from the MATLAB Project, with a
-    `buildtool` task, or automatically (Git hook, GitHub Actions)
-  - [ ] Decide whether the tests must run before the toolbox is packaged (`tests` is outside `toolbox`, so it is
-    not packaged with it)
-  - [ ] Decide what documentation the tests need: an overview of the tests, what each one covers and how to run
-    them (for example a live script in `tests\validation`, see `conventions\documentationhierarchy.m`)
-- [ ] Record the test class naming in `conventions\documentationhierarchy.m` (`resultTest` for a class in the global
-  namespace, for example `ClosedBoxTest` for a class in a namespace)
-- [ ] Replace the old toolbox name "JVsound Toolbox" with "Loudspeaker System Toolbox" (renamed 2026-09-23) in
+  - [ ] Add the solid angle to the `switch` in `result.get.Pressure`
+- [x] Find out when and how the tests run
+  - [x] Keep it simple: `buildtool` runs the one test, `buildtool package` runs the test and then packages the
+    toolbox into `release\LoudspeakerSystemToolbox.mltbx`, version 0.1.0; `buildfile.m` is as short as possible
+    (2026-09-24)
+  - [x] Decide whether the tests also run automatically on GitHub: no, only locally (2026-09-24)
+  - [x] Decide what documentation the tests need: none apart from the help in the test class (2026-09-24)
+- [x] Replace the old toolbox name "JVsound Toolbox" with "Loudspeaker System Toolbox" (renamed 2026-09-23) in
   `GettingStarted.m`, `overview.m`, `symbols.m`, the diagram generators and the SVG diagrams; keep the byline
-  "J.G. Vermond, JVsound"
+  "J.G. Vermond, JVsound" (2026-09-24; the repository on GitHub was renamed by hand, the folder on disk keeps its
+  name for now)

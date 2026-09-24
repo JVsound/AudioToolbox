@@ -34,15 +34,14 @@
 %[text] - Each example is one live script in the plain-text format (`.m`), named like a function in lowerCamelCase after what it shows (for example `closedBoxExample.m`; MathWorks' own example is `usingAdd.mlx`). Supporting files go in `toolbox/examples/helperfiles`.
 %[text] - An example does not depend on files in 'tests', which is not packaged: it creates everything it needs itself.
 %[text] - Documentation pages may link to an example with the `which('lspsys')` anchor, with `'examples'` instead of `'doc'` after the toolbox folder. \
-%[text] ## Tests and validation (outside the documentation hierarchy)
-%[text] Tests and validation material are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. They have their own top-level folder:
+%[text] ## Tests (outside the documentation hierarchy)
+%[text] Tests are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. The toolbox is kept to one simple test, so that it stays easy to understand:
 %[text] - `tests` sits directly in the project root, as a sibling of 'toolbox', 'conventions' and 'sandbox'. It is deliberately **outside** 'toolbox', so it is not packaged with the toolbox.
-%[text] - Automated tests: class-based `matlab.unittest` tests directly in 'tests', named after the class they test with the suffix `Test` (for example `FeaEnclosureTest.m`).
-%[text] - Helper functions shared by the tests, for example `createTestDriver.m` (the fixture driver): directly in 'tests', named like a function (lowerCamelCase).
-%[text] - Reference data, datasheets (such as the PDF of the test driver) small FEA result files and digitized datasheet curves used by the tests, plus the scripts that generate them (for example `digitizeImpedance.m`): `tests/helperfiles`, following the same 'helperfiles' naming as the documentation folders.
-%[text] - Validation reports (narrative, with comparison plots): live scripts in `tests/validation`.
-%[text] - Documentation pages in 'toolbox/doc' must **not** link to files in 'tests'. 'tests' is not packaged, so such a link would break in an installed toolbox. Mention the validation status in plain text instead.
-%[text] - The 'tests' folder and its subfolders are added to the MATLAB project and project path manually, like the 'doc' folders. \
+%[text] - There is one class-based `matlab.unittest` test, `tests/ClosedBoxTest.m`, with one test that compares the sound pressure level of a closed box with the theory of R. H. Small. The test class is named after the class it tests, without its namespace, with the suffix `Test`.
+%[text] - The test has no separate documentation page: the help of the classdef explains what the test checks, the reference and its source, the tolerance and why, and how to run it.
+%[text] - Datasheets and other reference data used by the tests go in `tests/helperfiles`.
+%[text] - `buildfile.m` in the project root is kept as short as possible. `buildtool` runs the test; `buildtool package` runs the test and then packages 'toolbox' into 'release/LoudspeakerSystemToolbox.mltbx', which git ignores. `runtests("tests")` also runs the test.
+%[text] - Documentation pages in 'toolbox/doc' must **not** link to files in 'tests'. 'tests' is not packaged, so such a link would break in an installed toolbox. \
 
 %[appendix]{"version":"1.0"}
 %---

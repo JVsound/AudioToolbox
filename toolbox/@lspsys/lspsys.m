@@ -52,41 +52,64 @@ classdef lspsys
 
         function val = solve2PortNetwork(obj)
             %SOLVE2PORTNETWORK Solve the two-port network of the loudspeaker system
-            %   val = solve2PortNetwork(obj) multiplies the transmission matrices of the driver and the
-            %   acoustical side of the enclosure for each frequency; port 2 of the acoustical side is open.
-            %   val is a structure with the fields DiaphragmVolumeVelocity and SourceCurrent, both a row
-            %   vector over Frequency.
+            %   val = solve2PortNetwork(obj) reduces the 4-ports tae (enclosure) and tarad (radiation) of the
+            %   enclosure to the 2-port Ta of the acoustical side, multiplies it with the transmission matrices
+            %   of the driver for each frequency, and solves the network with port 2 of Ta open. val is a
+            %   structure with the fields DiaphragmVolumeVelocity, RadiatedVolumeVelocity and SourceCurrent,
+            %   each a row vector over Frequency.
 
-            % We need: Te, Tbl, Tm, Tsd, Ta
+            % We need: Te, Tbl, Tm, Tsd, Tae, Tarad
             Te = obj.Enclosure.Driver.te(obj.Frequency);
             Tbl = obj.Enclosure.Driver.tbl;
             Tm = obj.Enclosure.Driver.tm(obj.Frequency);
             Tsd = obj.Enclosure.Driver.tsd;
-            Ta = obj.Enclosure.ta(obj.Frequency,obj.RadiationAngle);
+            Tae = obj.Enclosure.tae(obj.Frequency,obj.RadiationAngle);
+            Tarad = obj.Enclosure.tarad(obj.Frequency,obj.RadiationAngle);
 
             % Repeat the frequency independent matrices for each frequency:
             Tbl = repmat(Tbl,1,1,obj.NumFrequencies);
             Tsd = repmat(Tsd,1,1,obj.NumFrequencies);
 
-            % Allocate Ud and ig:
+            % Allocate Ud, Urad and ig:
             Ud = zeros(1,obj.NumFrequencies);
+            Urad = zeros(1,obj.NumFrequencies);
             ig = zeros(1,obj.NumFrequencies);
 
+            % Port 2 of the 4-ports: p_2 = p_f - p_r and U_f = U_r = U_2 (front and rear flow), with the free
+            % pressure p_r: x = P*[p_2; U_2] + q*p_r. Flows count to the right on the front conductor and to the
+            % left on the rear conductor.
+            P = [1 0; 0 1; 0 0; 0 1];
+            q = [1; 0; 1; 0];
+
             for i = 1:obj.NumFrequencies
+                % Reduce the 4-ports to the 2-port Ta. Rows 2 and 4 of M both give U_d, which fixes p_r; port 1
+                % is p_1 = p_f - p_r (rows 1 and 3) and U_d (row 2):
+                M = Tae(:,:,i)*Tarad(:,:,i);
+                d = M(2,:) - M(4,:);
+                K = P - q*(d*P)/(d*q);
+                Ta = [M(1,:) - M(3,:); M(2,:)]*K;
+
                 % Complete 2-port transmission matrix:
-                T = Te(:,:,i)*Tbl(:,:,i)*Tm(:,:,i)*Tsd(:,:,i)*Ta(:,:,i);
+                T = Te(:,:,i)*Tbl(:,:,i)*Tm(:,:,i)*Tsd(:,:,i)*Ta;
 
                 % Port 2 of Ta is open (U_2 = 0), so the first column gives its pressure p_2:
                 p2 = obj.SourceVoltage/T(1,1);
 
                 % Diaphragm volume velocity:
-                Ud(i) = Ta(2,1,i)*p2;
+                Ud(i) = Ta(2,1)*p2;
 
                 % Electric current:
                 ig(i) = T(2,1)*p2;
+
+                % Radiated volume velocity: the flow that the radiation 4-port leads to the ambient pressure,
+                % from its output (x3) and its input (x2):
+                x3 = K*[p2; 0];
+                x2 = Tarad(:,:,i)*x3;
+                Urad(i) = (x2(2) - x3(2)) - (x2(4) - x3(4));
             end
 
             val.DiaphragmVolumeVelocity = Ud;
+            val.RadiatedVolumeVelocity = Urad;
             val.SourceCurrent = ig;
         end
 
@@ -98,9 +121,6 @@ classdef lspsys
             % Solve 2-port network:
             s2p = obj.solve2PortNetwork;
 
-            % Ratio of the radiated to the diaphragm volume velocity:
-            UrPerUd = obj.Enclosure.diaphragm2RadiatedVolumeVelocity(obj.Frequency);
-
             % Initiate object for results collection:
             val = result;
 
@@ -108,7 +128,7 @@ classdef lspsys
             val.Frequency = obj.Frequency;
             val.SourceVoltage = ones(1,obj.NumFrequencies,1)*obj.SourceVoltage;
             val.DiaphragmVolumeVelocity = s2p.DiaphragmVolumeVelocity;
-            val.RadiatedVolumeVelocity = s2p.DiaphragmVolumeVelocity.*UrPerUd;
+            val.RadiatedVolumeVelocity = s2p.RadiatedVolumeVelocity;
             val.SourceCurrent = s2p.SourceCurrent;
         end
     end

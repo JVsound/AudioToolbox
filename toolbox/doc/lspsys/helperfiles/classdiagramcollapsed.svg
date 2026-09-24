@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1130" height="530" viewBox="0 0 1130 530" role="img">
-<title>JVsound Toolbox class diagram</title>
+<title>Loudspeaker System Toolbox class diagram</title>
 <defs>
 <marker id="assoc" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#2b3646" stroke-width="1.6"/></marker>
 <marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="16" markerHeight="16" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L15,8 L1,15 z" fill="#ffffff" stroke="#2b3646" stroke-width="1.6"/></marker>

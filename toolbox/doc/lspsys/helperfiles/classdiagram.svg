@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1326" viewBox="0 0 1320 1326" role="img">
-<title>JVsound Toolbox class diagram</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1260" viewBox="0 0 1320 1260" role="img">
+<title>Loudspeaker System Toolbox class diagram</title>
 <defs>
 <marker id="assoc" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#2b3646" stroke-width="1.6"/></marker>
 <marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="16" markerHeight="16" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L15,8 L1,15 z" fill="#ffffff" stroke="#2b3646" stroke-width="1.6"/></marker>
@@ -12,12 +12,12 @@
 <text x="1100" y="386" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" font-style="italic" fill="#2b3646">Driver</text>
 <path d="M470,100 L370,100" fill="none" stroke="#2b3646" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#assoc)"/>
 <text x="420" y="90" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">&#171;creates&#187;</text>
-<path d="M650,884 L650,832" fill="none" stroke="#2b3646" stroke-width="1.6" marker-end="url(#inherit)"/>
-<path d="M1.825000e+02,884 L1075,884" fill="none" stroke="#2b3646" stroke-width="1.6"/>
-<path d="M1.825000e+02,884 L1.825000e+02,924" fill="none" stroke="#2b3646" stroke-width="1.6"/>
-<path d="M4.725000e+02,884 L4.725000e+02,924" fill="none" stroke="#2b3646" stroke-width="1.6"/>
-<path d="M750,884 L750,924" fill="none" stroke="#2b3646" stroke-width="1.6"/>
-<path d="M1075,884 L1075,924" fill="none" stroke="#2b3646" stroke-width="1.6"/>
+<path d="M650,840 L650,788" fill="none" stroke="#2b3646" stroke-width="1.6" marker-end="url(#inherit)"/>
+<path d="M1.825000e+02,840 L1075,840" fill="none" stroke="#2b3646" stroke-width="1.6"/>
+<path d="M1.825000e+02,840 L1.825000e+02,880" fill="none" stroke="#2b3646" stroke-width="1.6"/>
+<path d="M4.725000e+02,840 L4.725000e+02,880" fill="none" stroke="#2b3646" stroke-width="1.6"/>
+<path d="M750,840 L750,880" fill="none" stroke="#2b3646" stroke-width="1.6"/>
+<path d="M1075,840 L1075,880" fill="none" stroke="#2b3646" stroke-width="1.6"/>
 <clipPath id="clip1"><rect x="470" y="40" width="360" height="480" rx="6"/></clipPath>
 <rect x="470" y="40" width="360" height="480" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip1)">
@@ -85,7 +85,7 @@
 <text x="914" y="194" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">DiaphragmRadius: double</text>
 <rect x="900" y="200" width="380" height="24" fill="#eef1f5"/>
 <text x="914" y="216" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="914" y="240" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">ze(f)</text>
+<text x="914" y="240" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">zeb(f)</text>
 <text x="914" y="262" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">zm(f)</text>
 <text x="914" y="284" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">te(f)</text>
 <text x="914" y="306" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">tbl()</text>
@@ -94,8 +94,8 @@
 </g>
 <text x="1090" y="72" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.Driver</text>
 <rect x="900" y="40" width="380" height="324" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
-<clipPath id="clip4"><rect x="470" y="582" width="360" height="250" rx="6"/></clipPath>
-<rect x="470" y="582" width="360" height="250" rx="6" fill="#ffffff"/>
+<clipPath id="clip4"><rect x="470" y="582" width="360" height="206" rx="6"/></clipPath>
+<rect x="470" y="582" width="360" height="206" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip4)">
 <rect x="470" y="582" width="360" height="62" fill="#e6eefb"/>
 <rect x="470" y="582" width="360" height="5" fill="#1f4e9c"/>
@@ -104,85 +104,81 @@
 <text x="484" y="684" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">Driver: comp.Driver</text>
 <rect x="470" y="690" width="360" height="24" fill="#eef1f5"/>
 <text x="484" y="706" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="484" y="730" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">ta(f,ra)</text>
-<text x="484" y="752" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" font-style="italic">tae, tarad (f,ra)</text>
-<text x="484" y="774" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" font-style="italic">diaphragm2RadiatedVolumeVelocity(f,ra)</text>
-<text x="484" y="796" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">zarad(...)</text>
-<text x="484" y="818" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">struve(...)</text>
+<text x="484" y="730" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" font-style="italic">tae, tarad (f,ra)</text>
+<text x="484" y="752" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">zarad(...)</text>
+<text x="484" y="774" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">struve(...)</text>
 </g>
 <text x="650" y="605" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" fill="#44546a">&#171;abstract&#187;</text>
 <text x="650" y="628" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="italic" fill="#14233b">comp.Enclosure</text>
-<rect x="470" y="582" width="360" height="250" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
-<clipPath id="clip5"><rect x="40" y="924" width="285" height="168" rx="6"/></clipPath>
-<rect x="40" y="924" width="285" height="168" rx="6" fill="#ffffff"/>
+<rect x="470" y="582" width="360" height="206" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
+<clipPath id="clip5"><rect x="40" y="880" width="285" height="146" rx="6"/></clipPath>
+<rect x="40" y="880" width="285" height="146" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip5)">
-<rect x="40" y="924" width="285" height="46" fill="#e6eefb"/>
-<rect x="40" y="924" width="285" height="5" fill="#1f4e9c"/>
-<rect x="40" y="970" width="285" height="24" fill="#eef1f5"/>
-<text x="54" y="986" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
-<text x="54" y="1010" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">RearVolume: double</text>
-<rect x="40" y="1016" width="285" height="24" fill="#eef1f5"/>
-<text x="54" y="1032" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="54" y="1056" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">zaradf, zacbr, tae, tarad</text>
-<text x="54" y="1078" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">diaphragm2RadiatedVolumeVelocity</text>
+<rect x="40" y="880" width="285" height="46" fill="#e6eefb"/>
+<rect x="40" y="880" width="285" height="5" fill="#1f4e9c"/>
+<rect x="40" y="926" width="285" height="24" fill="#eef1f5"/>
+<text x="54" y="942" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
+<text x="54" y="966" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">RearVolume: double</text>
+<rect x="40" y="972" width="285" height="24" fill="#eef1f5"/>
+<text x="54" y="988" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
+<text x="54" y="1012" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">tae, tarad</text>
 </g>
-<text x="1.825000e+02" y="956" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.ClosedBox</text>
-<rect x="40" y="924" width="285" height="168" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
-<clipPath id="clip6"><rect x="345" y="924" width="255" height="162" rx="6"/></clipPath>
-<rect x="345" y="924" width="255" height="162" rx="6" fill="#ffffff"/>
+<text x="1.825000e+02" y="912" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.ClosedBox</text>
+<rect x="40" y="880" width="285" height="146" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
+<clipPath id="clip6"><rect x="345" y="880" width="255" height="162" rx="6"/></clipPath>
+<rect x="345" y="880" width="255" height="162" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip6)">
-<rect x="345" y="924" width="255" height="62" fill="#e6eefb"/>
-<rect x="345" y="924" width="255" height="5" fill="#1f4e9c"/>
-<rect x="345" y="986" width="255" height="24" fill="#eef1f5"/>
-<text x="359" y="1002" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
-<text x="359" y="1026" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">Property1</text>
-<rect x="345" y="1032" width="255" height="24" fill="#eef1f5"/>
-<text x="359" y="1048" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="359" y="1072" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#6b7785" font-style="italic">(constructor only)</text>
+<rect x="345" y="880" width="255" height="62" fill="#e6eefb"/>
+<rect x="345" y="880" width="255" height="5" fill="#1f4e9c"/>
+<rect x="345" y="942" width="255" height="24" fill="#eef1f5"/>
+<text x="359" y="958" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
+<text x="359" y="982" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">Property1</text>
+<rect x="345" y="988" width="255" height="24" fill="#eef1f5"/>
+<text x="359" y="1004" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
+<text x="359" y="1028" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#6b7785" font-style="italic">(constructor only)</text>
 </g>
-<text x="4.725000e+02" y="947" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" fill="#44546a">&#171;abstract&#187;</text>
-<text x="4.725000e+02" y="970" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="italic" fill="#14233b">comp.BassReflex</text>
-<rect x="345" y="924" width="255" height="162" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
-<clipPath id="clip7"><rect x="620" y="924" width="260" height="162" rx="6"/></clipPath>
-<rect x="620" y="924" width="260" height="162" rx="6" fill="#ffffff"/>
+<text x="4.725000e+02" y="903" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" fill="#44546a">&#171;abstract&#187;</text>
+<text x="4.725000e+02" y="926" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="italic" fill="#14233b">comp.BassReflex</text>
+<rect x="345" y="880" width="255" height="162" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
+<clipPath id="clip7"><rect x="620" y="880" width="260" height="162" rx="6"/></clipPath>
+<rect x="620" y="880" width="260" height="162" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip7)">
-<rect x="620" y="924" width="260" height="62" fill="#e6eefb"/>
-<rect x="620" y="924" width="260" height="5" fill="#1f4e9c"/>
-<rect x="620" y="986" width="260" height="24" fill="#eef1f5"/>
-<text x="634" y="1002" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
-<text x="634" y="1026" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">Property1</text>
-<rect x="620" y="1032" width="260" height="24" fill="#eef1f5"/>
-<text x="634" y="1048" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="634" y="1072" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">method1()</text>
+<rect x="620" y="880" width="260" height="62" fill="#e6eefb"/>
+<rect x="620" y="880" width="260" height="5" fill="#1f4e9c"/>
+<rect x="620" y="942" width="260" height="24" fill="#eef1f5"/>
+<text x="634" y="958" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
+<text x="634" y="982" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">Property1</text>
+<rect x="620" y="988" width="260" height="24" fill="#eef1f5"/>
+<text x="634" y="1004" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
+<text x="634" y="1028" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">method1()</text>
 </g>
-<text x="750" y="947" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" fill="#44546a">&#171;abstract&#187;</text>
-<text x="750" y="970" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="italic" fill="#14233b">comp.FrontLoadedHorn</text>
-<rect x="620" y="924" width="260" height="162" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
-<clipPath id="clip8"><rect x="910" y="924" width="330" height="302" rx="6"/></clipPath>
-<rect x="910" y="924" width="330" height="302" rx="6" fill="#ffffff"/>
+<text x="750" y="903" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" fill="#44546a">&#171;abstract&#187;</text>
+<text x="750" y="926" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="italic" fill="#14233b">comp.FrontLoadedHorn</text>
+<rect x="620" y="880" width="260" height="162" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
+<clipPath id="clip8"><rect x="910" y="880" width="330" height="280" rx="6"/></clipPath>
+<rect x="910" y="880" width="330" height="280" rx="6" fill="#ffffff"/>
 <g clip-path="url(#clip8)">
-<rect x="910" y="924" width="330" height="46" fill="#e6eefb"/>
-<rect x="910" y="924" width="330" height="5" fill="#1f4e9c"/>
-<rect x="910" y="970" width="330" height="24" fill="#eef1f5"/>
-<text x="924" y="986" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
-<text x="924" y="1010" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">DiaphragmVelocity: double</text>
-<text x="924" y="1032" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureFrontFileName: string</text>
-<text x="924" y="1054" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureRearFileName: string</text>
-<text x="924" y="1076" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureFarFieldFileName: string</text>
-<rect x="910" y="1082" width="330" height="24" fill="#eef1f5"/>
-<text x="924" y="1098" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Dependent</text>
-<text x="924" y="1122" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">VolumeVelocity</text>
-<rect x="910" y="1128" width="330" height="24" fill="#eef1f5"/>
-<text x="924" y="1144" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
-<text x="924" y="1168" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">tae, tarad</text>
-<text x="924" y="1190" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">diaphragm2RadiatedVolumeVelocity</text>
-<text x="924" y="1212" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">importAnsysPressureResults(filename)</text>
+<rect x="910" y="880" width="330" height="46" fill="#e6eefb"/>
+<rect x="910" y="880" width="330" height="5" fill="#1f4e9c"/>
+<rect x="910" y="926" width="330" height="24" fill="#eef1f5"/>
+<text x="924" y="942" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Properties</text>
+<text x="924" y="966" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">DiaphragmVelocity: double</text>
+<text x="924" y="988" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureFrontFileName: string</text>
+<text x="924" y="1010" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureRearFileName: string</text>
+<text x="924" y="1032" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">PressureFarFieldFileName: string</text>
+<rect x="910" y="1038" width="330" height="24" fill="#eef1f5"/>
+<text x="924" y="1054" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Dependent</text>
+<text x="924" y="1078" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">VolumeVelocity</text>
+<rect x="910" y="1084" width="330" height="24" fill="#eef1f5"/>
+<text x="924" y="1100" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#44546a">Methods</text>
+<text x="924" y="1124" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430">tae, tarad</text>
+<text x="924" y="1146" font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#1b2430" text-decoration="underline">importAnsysPressureResults(filename)</text>
 </g>
-<text x="1075" y="956" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.FeaEnclosure</text>
-<rect x="910" y="924" width="330" height="302" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
-<rect x="40" y="1276" width="34" height="20" rx="3" fill="#ffffff" stroke="#7a8797" stroke-width="1.5" stroke-dasharray="6 4"/>
-<text x="84" y="1291" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">work in progress (stub or not yet implemented)</text>
-<text x="470" y="1291" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" font-style="italic" fill="#2b3646">italic: abstract</text>
-<text x="620" y="1291" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" text-decoration="underline" fill="#2b3646">underline: static</text>
-<text x="780" y="1291" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">arrow: association &#183; hollow triangle: inheritance &#183; dashed arrow: creates</text>
+<text x="1075" y="912" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.FeaEnclosure</text>
+<rect x="910" y="880" width="330" height="280" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
+<rect x="40" y="1210" width="34" height="20" rx="3" fill="#ffffff" stroke="#7a8797" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="84" y="1225" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">work in progress (stub or not yet implemented)</text>
+<text x="470" y="1225" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" font-style="italic" fill="#2b3646">italic: abstract</text>
+<text x="620" y="1225" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" text-decoration="underline" fill="#2b3646">underline: static</text>
+<text x="780" y="1225" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">arrow: association &#183; hollow triangle: inheritance &#183; dashed arrow: creates</text>
 </svg>

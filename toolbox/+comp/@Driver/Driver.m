@@ -1,7 +1,7 @@
 classdef Driver
     %DRIVER Class definition for a loudspeaker driver
     %   A driver is described by the parameters Re, Le, Qes, Qms, Fs, Sd and Vas. The other parameters
-    %   (Bl, Cms, Mmd, ...) are derived from them. ze, zm, te, tbl, tm and tsd return the impedances and
+    %   (Bl, Cms, Mmd, ...) are derived from them. zeb, zm, te, tbl, tm and tsd return the impedances and
     %   two-port transmission matrices of the driver that lspsys uses to solve the system.
 
     properties
@@ -71,15 +71,15 @@ classdef Driver
             val = obj.Qes*obj.Qms/(obj.Qes+obj.Qms);
         end
 
-        function val = ze(obj,f)
-            %ZE Electrical impedance
-            %   val = ze(obj,f) returns the electrical impedance of the voice coil in [Ohm] at the
-            %   frequencies f in [Hz].
+        function val = zeb(obj,f)
+            %ZEB Blocked electrical impedance
+            %   val = zeb(obj,f) returns the electrical impedance of the voice coil with the diaphragm blocked,
+            %   Re + j*w*Le, in [Ohm] at the frequencies f in [Hz].
 
             % Frequency in [rad/s]:
             w = 2*pi*f;
 
-            % Electrical impedance [Ohm]:
+            % Blocked electrical impedance [Ohm]:
             val = obj.Re + 1i*w*obj.Le;
         end
 
@@ -101,14 +101,14 @@ classdef Driver
             % Number of frequencies
             nf = numel(f);
 
-            % Electric impedance:
-            zeInt = obj.ze(f);
+            % Blocked electrical impedance:
+            zebInt = obj.zeb(f);
 
             % Transmission matrices:
             val = repmat([1 0; 0 1],1,1,nf);
 
-            % Add zeInt:
-            val(1,2,:) = zeInt;
+            % Add zebInt:
+            val(1,2,:) = zebInt;
         end
 
         function val = tbl(obj)

@@ -26,8 +26,6 @@ classdef FeaEnclosure < comp.Enclosure
 		end
 		function val = tarad(obj,f,ra)
 		end
-		function val = diaphragm2RadiatedVolumeVelocity(obj,f,ra)
-		end
 	end
 
 	methods (Static)
