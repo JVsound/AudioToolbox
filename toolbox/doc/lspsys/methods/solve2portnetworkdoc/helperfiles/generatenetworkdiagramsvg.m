@@ -10,7 +10,8 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
     %   2-port T_a that holds 4-ports on a front, ambient pressure and rear
     %   conductor, "fourportdetail", the inside of T_a with the 4-ports T_a,e
     %   of the enclosure and T_a,rad of the radiation, "closedbox", the
-    %   inside of T_a for comp.ClosedBox, or "definition", one generic 2-port
+    %   inside of T_a for comp.ClosedBox, "feaenclosure", the inside of T_a for
+    %   comp.FeaEnclosure, or "definition", one generic 2-port
     %   network with its ports to define the transmission matrix. The diagram
     %   is written to networkdiagram<L>.svg by default.
     %
@@ -30,7 +31,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
     arguments
         svgPath (1,1) string = ""
         options.Layout (1,1) string {mustBeMember(options.Layout, ...
-            ["fourport","fourportdetail","closedbox","definition"])} = "fourport"
+            ["fourport","fourportdetail","closedbox","feaenclosure","definition"])} = "fourport"
     end
 
     layout = options.Layout;
@@ -69,7 +70,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
     if layout == "definition"
         % One generic 2-port network: flow x and effort y at port 1 (left) and port 2 (right)
         openCircuit = readicon(fullfile(iconFolder, "open_circuit.svg"), ink);
-        labels(end+1, :) = {"T", 182, 68, "start"};
+        labels(end+1, :) = {"\mathbf{T}", 182, 68, "start"};
         parts(end+1) = twoport(170, 350, 0, "", ink);
         labels(end+1, :) = {"\begin{matrix}A & B \\ C & D\end{matrix}", 260, middle - 8, "middle"};
         for y = [top bottom]
@@ -90,6 +91,62 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         return
     end
 
+    if layout == "feaenclosure"
+        % The inside of T_a for comp.FeaEnclosure: in the enclosure 4-port T_a,e, the load Z_a,r of the rear of
+        % the diaphragm between the rear conductor and the reference; in the radiation 4-port T_a,rad, the load
+        % Z_a,f of the front between the front conductor and the reference. Both loads come from the FEA model and
+        % are drawn as boxes. The layout is the layout of "closedbox", with the rear load mirrored to the front load.
+        openCircuit = readicon(fullfile(iconFolder, "open_circuit.svg"), ink);
+        reference3 = (top + bottom) / 2;
+        below = bottom + 28;
+        canvasWidth = 870;
+        mirror = @(x) canvasWidth - x;
+        dot = @(x, y) sprintf('<circle cx="%g" cy="%g" r="3.5" fill="%s"/>', x, y, ink);
+        parts(end+1) = frame(240, 400);
+        labels(end+1, :) = {"\mathbf{T}_{a,e}", 252, 68, "start"};
+        parts(end+1) = frame(470, 630);
+        labels(end+1, :) = {"\mathbf{T}_{a,rad}", 482, 68, "start"};
+        for y = [top bottom]
+            parts(end+1) = placeicon(openCircuit, 60, y, 0.4, 180, [5.4 22.5]); %#ok<AGROW>
+            parts(end+1) = placeicon(openCircuit, mirror(60), y, 0.4, 0, [5.4 22.5]); %#ok<AGROW>
+            parts(end+1) = wire([60 y; mirror(60) y]); %#ok<AGROW>
+        end
+        parts(end+1) = wire([200 reference3; mirror(200) reference3]);
+        parts(end+1) = placeicon(reference, 200, reference3, 0.015, 180, [16 1417]);
+        parts(end+1) = placeicon(reference, mirror(200), reference3, 0.015, 0, [16 1417]);
+
+        % Rear load Z_a,r in T_a,e and front load Z_a,f in T_a,rad, both to the reference
+        parts(end+1) = impedancebox(mirror(530), reference3, bottom, ink);
+        parts(end+1) = dot(mirror(530), reference3);
+        parts(end+1) = dot(mirror(530), bottom);
+        labels(end+1, :) = {"Z_{a,r}", mirror(530) + 20, (reference3 + bottom) / 2 + 8, "start"};
+        parts(end+1) = impedancebox(530, top, reference3, ink);
+        parts(end+1) = dot(530, top);
+        parts(end+1) = dot(530, reference3);
+        labels(end+1, :) = {"Z_{a,f}", 550, (top + reference3) / 2 + 8, "start"};
+        labels(end+1, :) = {"U_d", 100, above, "middle"};
+        parts(end+1) = arrow(100, top);
+        labels(end+1, :) = {"U_d", 100, below, "middle"};
+        parts(end+1) = arrowLeft(100, bottom);
+        labels(end+1, :) = {"p_1", 100, middle, "middle"};
+        labels(end+1, :) = {"U_f", 435, above, "middle"};
+        parts(end+1) = arrow(435, top);
+        labels(end+1, :) = {"U_r", 435, below, "middle"};
+        parts(end+1) = arrowLeft(435, bottom);
+        labels(end+1, :) = {"p_f", 435, top + 26, "middle"};
+        labels(end+1, :) = {"p_r", 435, bottom - 18, "middle"};
+        labels(end+1, :) = {"U_2", mirror(100), above, "middle"};
+        parts(end+1) = arrow(mirror(100), top);
+        labels(end+1, :) = {"U_2", mirror(100), below, "middle"};
+        parts(end+1) = arrowLeft(mirror(100), bottom);
+        labels(end+1, :) = {"p_2", mirror(100), middle, "middle"};
+        parts(end+1) = sprintf(['<rect x="135" y="8" width="%g" height="294" rx="4" fill="none" ' ...
+            'stroke="#8a96a8" stroke-width="1.5" stroke-dasharray="8 5"/>'], mirror(135) - 135);
+        labels(end+1, :) = {"\mathbf{T}_a", 145, 32, "start"};
+        writesvg(svgPath, parts, labels, canvasWidth, 320);
+        return
+    end
+
     if layout == "closedbox"
         % The inside of T_a for comp.ClosedBox: in the enclosure 4-port T_a,e, the compliance of the box between
         % the rear conductor and the reference; in the radiation 4-port T_a,rad, the radiation impedance of the
@@ -102,9 +159,9 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         mirror = @(x) canvasWidth - x;
         dot = @(x, y) sprintf('<circle cx="%g" cy="%g" r="3.5" fill="%s"/>', x, y, ink);
         parts(end+1) = frame(240, 400);
-        labels(end+1, :) = {"T_{a,e}", 252, 68, "start"};
+        labels(end+1, :) = {"\mathbf{T}_{a,e}", 252, 68, "start"};
         parts(end+1) = frame(470, 630);
-        labels(end+1, :) = {"T_{a,rad}", 482, 68, "start"};
+        labels(end+1, :) = {"\mathbf{T}_{a,rad}", 482, 68, "start"};
         for y = [top bottom]
             parts(end+1) = placeicon(openCircuit, 60, y, 0.4, 180, [5.4 22.5]); %#ok<AGROW>
             parts(end+1) = placeicon(openCircuit, mirror(60), y, 0.4, 0, [5.4 22.5]); %#ok<AGROW>
@@ -145,7 +202,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         labels(end+1, :) = {"p_2", mirror(100), middle, "middle"};
         parts(end+1) = sprintf(['<rect x="135" y="8" width="%g" height="294" rx="4" fill="none" ' ...
             'stroke="#8a96a8" stroke-width="1.5" stroke-dasharray="8 5"/>'], mirror(135) - 135);
-        labels(end+1, :) = {"T_a", 145, 32, "start"};
+        labels(end+1, :) = {"\mathbf{T}_a", 145, 32, "start"};
         writesvg(svgPath, parts, labels, canvasWidth, 320);
         return
     end
@@ -160,7 +217,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         below = bottom + 28;
         canvasWidth = 870;
         mirror = @(x) canvasWidth - x;
-        spec = struct("blockLefts", [240 470], "names", ["T_{a,e}" "T_{a,rad}"], ...
+        spec = struct("blockLefts", [240 470], "names", ["\mathbf{T}_{a,e}" "\mathbf{T}_{a,rad}"], ...
             "captions", ["enclosure" "radiation"], "gapX", 435, "frontFlows", "U_f", ...
             "rearFlows", "U_r", "frontPressures", "p_f", "rearPressures", "p_r");
         draw = struct("wire", wire, "arrow", arrow, "arrowLeft", arrowLeft, "ink", ink, ...
@@ -188,7 +245,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
         labels(end+1, :) = {"p_2", mirror(100), middle, "middle"};
         parts(end+1) = sprintf(['<rect x="135" y="8" width="%g" height="294" rx="4" fill="none" ' ...
             'stroke="#8a96a8" stroke-width="1.5" stroke-dasharray="8 5"/>'], mirror(135) - 135);
-        labels(end+1, :) = {"T_a", 145, 32, "start"};
+        labels(end+1, :) = {"\mathbf{T}_a", 145, 32, "start"};
         writesvg(svgPath, parts, labels, canvasWidth, 320);
         return
     end
@@ -199,7 +256,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
     labels(end+1, :) = {"i_g", 100, above, "middle"};
     parts(end+1) = arrow(100, top);
     parts(end+1) = frame(140, 360);
-    labels(end+1, :) = {"T_e", 152, 68, "start"};
+    labels(end+1, :) = {"\mathbf{T}_e", 152, 68, "start"};
     parts(end+1) = placeicon(resistor, 160, top, small, 0, [5.4 90]);
     labels(end+1, :) = {"R_e", 195, 145, "middle"};
     parts(end+1) = placeicon(inductor, 255, top, small, 0, [5.4 90]);
@@ -214,7 +271,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
 
     % Electromechanical coupling T_bl, mechanical port 1
     parts(end+1) = frame(430, 650);
-    labels(end+1, :) = {"T_{bl}", 442, 68, "start"};
+    labels(end+1, :) = {"\mathbf{T}_{bl}", 442, 68, "start"};
     parts(end+1) = placeicon(gyrator, 445, top, large, 0, [5.4 141.3]);
     labels(end+1, :) = {"Bl", 540, 275, "middle"};
     labels(end+1, :) = {"f_1", 685, middle, "middle"};
@@ -223,7 +280,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
 
     % Mechanical side T_m, mechanical port 2
     parts(end+1) = frame(720, 1020);
-    labels(end+1, :) = {"T_m", 732, 68, "start"};
+    labels(end+1, :) = {"\mathbf{T}_m", 732, 68, "start"};
     parts(end+1) = placeicon(inductor, 740, top, small, 0, [5.4 90]);
     labels(end+1, :) = {"M_{ms}", 771, 145, "middle"};
     parts(end+1) = placeicon(resistor, 825, top, small, 0, [5.4 90]);
@@ -241,7 +298,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
 
     % Mechanoacoustical coupling T_sd, acoustical port 1 (p_1)
     parts(end+1) = frame(1090, 1310);
-    labels(end+1, :) = {"T_{sd}", 1102, 68, "start"};
+    labels(end+1, :) = {"\mathbf{T}_{sd}", 1102, 68, "start"};
     parts(end+1) = placeicon(transformer, 1105, top, large, 0, [5.4 141.3]);
     labels(end+1, :) = {"S_d", 1200, 275, "middle"};
     labels(end+1, :) = {"p_1", 1340, middle, "middle"};
@@ -253,7 +310,7 @@ function svgPath = generatenetworkdiagramsvg(svgPath, options)
     reference3 = (top + bottom) / 2;
     below = bottom + 28;
     parts(end+1) = frame(1370, 1610);
-    labels(end+1, :) = {"T_a", 1382, 68, "start"};
+    labels(end+1, :) = {"\mathbf{T}_a", 1382, 68, "start"};
     parts(end+1) = sprintf(['<rect x="1455" y="85" width="70" height="170" rx="3" fill="#ffffff" ' ...
         'stroke="%s" stroke-width="1.5"/>'], ink);
     parts(end+1) = captiontext(1490, 174, "4-ports");

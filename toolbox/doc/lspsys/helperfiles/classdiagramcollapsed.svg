@@ -84,7 +84,7 @@
 <rect x="850" y="340" width="240" height="5" fill="#1f4e9c"/>
 </g>
 <text x="970" y="372" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#14233b">comp.FeaEnclosure</text>
-<rect x="850" y="340" width="240" height="46" rx="6" fill="none" stroke="#7a8797" stroke-width="1.6" stroke-dasharray="8 5"/>
+<rect x="850" y="340" width="240" height="46" rx="6" fill="none" stroke="#4a5a70" stroke-width="1.6"/>
 <rect x="40" y="452" width="34" height="20" rx="3" fill="#ffffff" stroke="#7a8797" stroke-width="1.5" stroke-dasharray="6 4"/>
 <text x="84" y="467" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" fill="#2b3646">work in progress (stub or not yet implemented)</text>
 <text x="420" y="467" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="13" font-style="italic" fill="#2b3646">italic: abstract</text>

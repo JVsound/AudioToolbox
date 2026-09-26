@@ -35,12 +35,12 @@
 %[text] - An example does not depend on files in 'tests', which is not packaged: it creates everything it needs itself.
 %[text] - Documentation pages may link to an example with the `which('lspsys')` anchor, with `'examples'` instead of `'doc'` after the toolbox folder. \
 %[text] ## Tests (outside the documentation hierarchy)
-%[text] Tests are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. The toolbox is kept to one simple test, so that it stays easy to understand:
+%[text] Tests are **not** part of the documentation hierarchy above and do not live in 'toolbox/doc'. The tests are kept few and alike, so that they stay easy to understand:
 %[text] - `tests` sits directly in the project root, as a sibling of 'toolbox', 'conventions' and 'sandbox'. It is deliberately **outside** 'toolbox', so it is not packaged with the toolbox.
-%[text] - There is one class-based `matlab.unittest` test, `tests/ClosedBoxTest.m`, with one test that compares the sound pressure level of a closed box with the theory of R. H. Small. The test class is named after the class it tests, without its namespace, with the suffix `Test`.
-%[text] - The test has no separate documentation page: the help of the classdef explains what the test checks, the reference and its source, the tolerance and why, and how to run it.
+%[text] - There is one class-based `matlab.unittest` test class per complete enclosure: `tests/ClosedBoxTest.m` for `comp.ClosedBox`, against the standard closed-box formulas (R. H. Small), and `tests/FeaEnclosureTest.m` for `comp.FeaEnclosure`, against FEA simulation results. Both have the same three tests: the sound pressure level at 1 m, the electrical impedance and the excursion of the diaphragm. A test class is named after the class it tests, without its namespace, with the suffix `Test`.
+%[text] - A test class has no separate documentation page: the help of the classdef explains what each test checks, the reference and its source, the tolerance and why, and how to run it.
 %[text] - Datasheets and other reference data used by the tests go in `tests/helperfiles`.
-%[text] - `buildfile.m` in the project root is kept as short as possible. `buildtool` runs the test; `buildtool package` runs the test and then packages 'toolbox' into 'release/LoudspeakerSystemToolbox.mltbx', which git ignores. `runtests("tests")` also runs the test.
+%[text] - `buildfile.m` in the project root is kept as short as possible. `buildtool` runs the tests; `buildtool package` runs the tests and then packages 'toolbox' into 'release/LoudspeakerSystemToolbox.mltbx', which git ignores. `runtests("tests")` also runs the tests.
 %[text] - Documentation pages in 'toolbox/doc' must **not** link to files in 'tests'. 'tests' is not packaged, so such a link would break in an installed toolbox. \
 
 %[appendix]{"version":"1.0"}

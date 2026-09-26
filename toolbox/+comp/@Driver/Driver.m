@@ -1,8 +1,11 @@
 classdef Driver
     %DRIVER Class definition for a loudspeaker driver
-    %   A driver is described by the parameters Re, Le, Qes, Qms, Fs, Sd and Vas. The other parameters
-    %   (Bl, Cms, Mmd, ...) are derived from them. zeb, zm, te, tbl, tm and tsd return the impedances and
-    %   two-port transmission matrices of the driver that lspsys uses to solve the system.
+    %   A driver is described by the parameters Re, Le, Qes, Qms, Fs, Sd and Vas. Its limits from the datasheet are
+    %   optional: the power handling Pnom, Pcont, Paes1984 and Paes2012, with the impedances Znom and Zmin, and the
+    %   excursion Xmax, Xvar, Xlim and Xmech; 0 means not given. Only result.maxSoundPressureLevel uses them, with
+    %   the limits that ExcursionLimit and PowerLimit choose by default. The other parameters (Bl, Cms, Mmd, ...)
+    %   are derived from Re to Vas. zeb, zm, te, tbl, tm and tsd return the impedances and two-port transmission
+    %   matrices of the driver that lspsys uses to solve the system.
 
     properties
         Re (1,1) double {mustBeNonnegative} = 0; % Resistance of the voice coil in [Ohm]
@@ -12,6 +15,18 @@ classdef Driver
         Fs (1,1) double {mustBeNonnegative} = 0; % The suspension resonance frequency [Hz]
         Sd (1,1) double {mustBeNonnegative} = 0; % Effective area of the diaphragm [m2]
         Vas (1,1) double {mustBeNonnegative} = 0; % Equivalent suspension volume [m3]
+        Znom (1,1) double {mustBeNonnegative} = 0; % Optional: nominal impedance in [Ohm], 0 means not given
+        Zmin (1,1) double {mustBeNonnegative} = 0; % Optional: minimum impedance in [Ohm], 0 means not given
+        Pnom (1,1) double {mustBeNonnegative} = 0; % Optional: nominal power handling, with Zmin, in [W]
+        Pcont (1,1) double {mustBeNonnegative} = 0; % Optional: continuous (program) power, with Zmin, in [W]
+        Paes1984 (1,1) double {mustBeNonnegative} = 0; % Optional: power after AES2-1984, with Zmin, in [W]
+        Paes2012 (1,1) double {mustBeNonnegative} = 0; % Optional: power after AES2-2012, with Znom, in [W]
+        Xmax (1,1) double {mustBeNonnegative} = 0; % Optional: maximum linear excursion, one way, in [m]
+        Xvar (1,1) double {mustBeNonnegative} = 0; % Optional: excursion, one way, at 50 % of Bl or Cms, in [m]
+        Xlim (1,1) double {mustBeNonnegative} = 0; % Optional: excursion limit, one way, in [m]
+        Xmech (1,1) double {mustBeNonnegative} = 0; % Optional: mechanical excursion limit, one way, in [m]
+        ExcursionLimit (1,1) string {mustBeMember(ExcursionLimit,["Xmax","Xvar","Xlim","Xmech"])} = "Xvar"; % Limit
+        PowerLimit (1,1) string {mustBeMember(PowerLimit,["Pnom","Pcont","Paes1984","Paes2012"])} = "Pnom"; % Limit
     end
 
     properties (Dependent)

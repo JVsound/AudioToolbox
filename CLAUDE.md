@@ -23,7 +23,7 @@ single source of truth, so this file does not repeat their rules. Afterwards, ch
 - Cite MathWorks coding rules by their title in the latest official MATLAB Coding Guidelines
   (github.com/mathworks/MATLAB-Coding-Guidelines, branch `main`). The guidelines have no rule IDs.
 - Documents, conventions and code comments are written in English.
-- Methods get no `arguments` block.
+- Methods get no `arguments` block, except for optional Name-Value arguments (see `classdefconventions.m`).
 
 ## Code first, documentation later
 

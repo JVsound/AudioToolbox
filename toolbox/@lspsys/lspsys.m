@@ -116,7 +116,9 @@ classdef lspsys
         function val = createResult(obj)
             %CREATERESULT Create a result object for the loudspeaker system
             %   val = createResult(obj) solves the two-port network and returns a result object with the
-            %   frequency, source voltage, diaphragm and radiated volume velocity and source current.
+            %   frequency, source voltage, diaphragm and radiated volume velocity and source current, and the
+            %   transfer to the microphone (micTransfer) of the enclosure, which is empty for most enclosures, and
+            %   the driver, whose limits maxSoundPressureLevel of the result uses.
 
             % Solve 2-port network:
             s2p = obj.solve2PortNetwork;
@@ -130,6 +132,8 @@ classdef lspsys
             val.DiaphragmVolumeVelocity = s2p.DiaphragmVolumeVelocity;
             val.RadiatedVolumeVelocity = s2p.RadiatedVolumeVelocity;
             val.SourceCurrent = s2p.SourceCurrent;
+            val.MicTransfer = obj.Enclosure.micTransfer(obj.Frequency,obj.RadiationAngle);
+            val.Driver = obj.Enclosure.Driver;
         end
     end
 

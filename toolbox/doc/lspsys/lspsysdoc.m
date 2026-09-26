@@ -77,7 +77,7 @@
 %[text] | Method | Type | Description |
 %[text] | --- | --- | --- |
 %[text] | [`solve2PortNetwork`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','methods','solve2portnetworkdoc','solve2portnetworkdoc.m'))) | Instance | Solve the two-port network of the system. Returns a struct with the diaphragm volume velocity and the source current. |
-%[text] | [`createResult`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','methods','createresultdoc','createresultdoc.m'))) | Instance | Solve the system and return a `result` object. |
+%[text] | [`createResult`](matlab:open(fullfile(fileparts(fileparts(which('lspsys'))),'doc','lspsys','methods','createresultdoc','createresultdoc.m'))) | Instance | Solve the system and return a `result` object, with the transfer to the microphone of the enclosure (`micTransfer`) and a copy of the driver for `maxSoundPressureLevel`. |
 %[text] | `f2k` | Static | Wave number for a frequency: `2*pi*f / SpeedOfSound`. |
 %[text] | `f2Lambda` | Static | Wavelength for a frequency: `SpeedOfSound ./ f`. |
 %[text:table]
@@ -85,20 +85,18 @@
 %[text] ## Examples
 %%
 %[text] ### Example: Plot the electrical impedance
-%[text] Create a driver according to the specifications of a B&C 21SW152-8, mount it in a closed box of 200 liter, and plot the electrical impedance of the loudspeaker system.
-d = comp.Driver;
-d.Re = 6;
-d.Le = 2.2e-3;
-d.Qes = 0.38;
-d.Qms = 6.4;
-d.Fs = 32;
-d.Sd = 1680e-4;
-d.Vas = 200e-3;
-e = comp.ClosedBox;
-e.RearVolume = 200e-3;
-e.Driver = d;
+%[text] Create a loudspeaker system, give it a closed box of 200 liter and a driver according to the specifications of a B&C 21SW152-8, and plot the electrical impedance of the loudspeaker system.
 sys = lspsys;
-sys.Enclosure = e;
+sys.Enclosure = comp.ClosedBox;
+sys.Enclosure.RearVolume = 200e-3;
+sys.Enclosure.Driver = comp.Driver;
+sys.Enclosure.Driver.Re = 6;
+sys.Enclosure.Driver.Le = 2.2e-3;
+sys.Enclosure.Driver.Qes = 0.38;
+sys.Enclosure.Driver.Qms = 6.4;
+sys.Enclosure.Driver.Fs = 32;
+sys.Enclosure.Driver.Sd = 1680e-4;
+sys.Enclosure.Driver.Vas = 200e-3;
 res = sys.createResult;
 semilogx(res.Frequency,abs(res.ElectricalImpedance),LineWidth=1.5) %[output:73997a87]
 grid on %[output:73997a87]

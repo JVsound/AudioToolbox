@@ -23,6 +23,7 @@
 %[text] - There is no `clearvars`, `close all` or `clc` at the top of the file.
 %[text] - Before every heading (`##` and `###`), except the title, there is a `%%` on its own line, so that every heading is a section of its own.
 %[text] - From the Description chapter on, every MATLAB name in running text is written in monospace (with backticks): classes, methods, functions, properties, arguments, variables and so on. Units, such as Hz and kHz, are not MATLAB names and are not written in monospace. This does not apply in the Title block.
+%[text] - Matrices and vectors are written in bold upright letters with `\\mathbf`, in equations and in the labels of diagrams: $ \\mathbf{T}\_a $, $ \\mathbf{x}\_3 $. Only the letter is bold, not the subscript. Scalars stay in italics, also the elements of a matrix ($ T\_{11} $) and quantities that are arrays over frequency ($ U\_d $).
 %[text] - A class page has no table of contents: MathWorks does not show one in the class page itself either, and with every property as a heading the list would become unwieldy. \
 %%
 %[text] ### Width of figures and tables
